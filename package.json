@@ -1,0 +1,19 @@
+{
+  "name": "almost-somewhere-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shashwatrathod/almost-somewhere-service.git"
+  },
+  "author": "Akshi, Manan, Sneha, Shashwat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shashwatrathod/almost-somewhere-service/issues"
+  },
+  "homepage": "https://github.com/shashwatrathod/almost-somewhere-service#readme"
+}
