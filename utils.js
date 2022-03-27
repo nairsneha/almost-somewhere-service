@@ -4,9 +4,11 @@
  * @param {boolean} condition the condition to be checked
  * @param {string} message the error message to be thrown if the assertion fails
  */
+// TODO: Remove eslint-disable statement after we export more things from this file.
+// eslint-disable-next-line import/prefer-default-export
 export const assert = (condition, message) => {
-  //Reference: https://stackoverflow.com/a/17370169/11844726
+  // Reference: https://stackoverflow.com/a/17370169/11844726
   if (!condition) {
-    throw Error(`Assert failed: ${message || ""}`);
+    throw Error(`Assert failed: ${message || ''}`);
   }
 };
