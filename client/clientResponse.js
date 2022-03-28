@@ -10,6 +10,13 @@ class ClientResponse {
 
   #response;
 
+  /**
+   * Creates a new `ClientResponse` with the given data.
+   *
+   * @param {boolean} isOk whether the request was successfully processed
+   * @param {string} message an informative message associated with the given response
+   * @param {object} response body of the response
+   */
   constructor(isOk = false, message = '', response = {}) {
     this.#isOk = isOk;
     this.#message = message;
