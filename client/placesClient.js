@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { GCP_API_KEY } from '../config.js';
-import ClientResponse from './clientResponse.js';
+import ClientResponse from '../dtos/ClientResponse.js';
 
 // Add all the calls to Placces Search API here
 
