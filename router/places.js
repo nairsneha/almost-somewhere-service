@@ -7,12 +7,6 @@ import placeDetailsHandler from '../requestHandlers/placesHandlers.js';
  * @param {Express} app the express app to add the routes to
  */
 const addPlacesRoutes = app => {
-  //! TODO: Remove this route
-  /**
-   * Hello world route for sanity check.
-   */
-  app.get('/places', async (req, res) => res.json({ message: 'Hello World' }));
-
   app.get('/places/details/:placeId', async (req, res) => {
     try {
       const response = await placeDetailsHandler(req.params.placeId);
