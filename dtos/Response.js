@@ -1,7 +1,7 @@
 /**
- * Represents a response obtained by making a request to the API clients.
+ * Represents a response obtained by making a request.
  * Contains information regarding whether the request was successfull,
- * an infromative message, and the actual API response body.
+ * an informative message, and the actual response body.
  */
 class Response {
   #isOk;

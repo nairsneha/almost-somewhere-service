@@ -7,9 +7,10 @@ import placeDetailsHandler from '../requestHandlers/placesHandlers.js';
  * @param {Express} app the express app to add the routes to
  */
 const addPlacesRoutes = app => {
+  // Get the details for the place specified by the placeId
   app.get('/places/details/:placeId', async (req, res) => {
     try {
-      const response = await placeDetailsHandler(req.params.placeId);
+      const response = await placeDetailsHandler(req.params?.placeId);
       res.status(StatusCodes.OK).json(response);
     } catch (err) {
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({

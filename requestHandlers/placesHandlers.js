@@ -77,7 +77,14 @@ const parsePlaceDetails = result => {
   return placeDetailsBuilder.build();
 };
 
-// TODO: edit
+/**
+ * Gets the necessary information regaring the place specified by the
+ * `placeId`.
+ *
+ * @param {string} placeId `place_id` of the place as obtained from Google.
+ * @returns {Promise<Response>} a {@link Response} with {@link PlaceDetails} as response if there exists a valid place with the
+ * given `placeId`.
+ */
 const placeDetailsHandler = async placeId => {
   const response = await getPlaceDetails(placeId);
 
@@ -86,4 +93,5 @@ const placeDetailsHandler = async placeId => {
   return new Response(response.isOk, response.message, placesDetails);
 };
 
+// TODO: convert default export to named export when we export more functions from this file.
 export default placeDetailsHandler;

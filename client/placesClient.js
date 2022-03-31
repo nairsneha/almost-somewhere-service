@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { GCP_API_KEY } from '../config.js';
 import Response from '../dtos/Response.js';
+import { assert } from '../utils.js';
 
 // Add all the calls to Placces Search API here
 
@@ -35,6 +36,8 @@ placesDetailsStatuses.set('UNKNOWN_ERROR', 'An unknown error occured!');
  * @returns {Response} the response data
  */
 const getPlaceDetails = async placeId => {
+  assert(placeId && typeof placeId === typeof 'somestring', 'placeId must be valid');
+
   const response = await placesInstance.get(`/details/json`, {
     params: {
       place_id: placeId,
