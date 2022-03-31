@@ -35,11 +35,11 @@ class ClientResponse {
     return { ...this.#response };
   }
 
-  get clientResponse() {
+  toJSON() {
     return {
       isOk: this.#isOk,
       message: this.#message,
-      response: { ...this.#response },
+      response: this.#response.toJSON() || { ...this.#response },
     };
   }
 }

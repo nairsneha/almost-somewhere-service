@@ -10,7 +10,7 @@ const addPlacesRoutes = app => {
   app.get('/places/details/:placeId', async (req, res) => {
     try {
       const response = await placeDetailsHandler(req.params.placeId);
-      res.status(StatusCodes.OK).json(response.clientResponse);
+      res.status(StatusCodes.OK).json(response);
     } catch (err) {
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: 'Internal server error',

@@ -83,7 +83,7 @@ class PlaceDetails {
    *
    * @returns {PlaceDetail} details of the place
    */
-  get placeDetails() {
+  toJSON() {
     return {
       placeId: this.#placeId,
       name: this.#name,

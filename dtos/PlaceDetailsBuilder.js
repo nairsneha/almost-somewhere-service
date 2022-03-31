@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import PlaceDetails from './PlaceDetails';
+import PlaceDetails from './PlaceDetails.js';
 
 /**
  * Represents a builder for PlaceDetails. Use the setters to
@@ -83,8 +83,8 @@ class PlaceDetailsBuilder {
   /**
    * @param {string[]} weekdayText information regarding the time of operations
    */
-  set weekdayText(weekDayText) {
-    this.#weekdayText = weekDayText;
+  set weekdayText(weekdayText) {
+    this.#weekdayText = weekdayText;
   }
 
   /**
