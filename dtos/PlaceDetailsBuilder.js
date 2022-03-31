@@ -67,7 +67,7 @@ class PlaceDetailsBuilder {
   }
 
   /**
-   * @param {PlaceLocation} location location (lat, lng) of the establishment
+   * @param {import('./PlaceDetails.js').PlaceLocation} location location (lat, lng) of the establishment
    */
   set location(location) {
     this.#location = location;
@@ -89,7 +89,7 @@ class PlaceDetailsBuilder {
 
   /**
    * Add a photo to the list of pictures of this place.
-   * @param {Photo} photo a picture of the place
+   * @param {import('./PlaceDetails.js').Photo} photo a picture of the place
    */
   addPhoto(photo) {
     this.#photos.push(photo);
@@ -104,7 +104,7 @@ class PlaceDetailsBuilder {
 
   /**
    * Adds a review to the list of reviews of this place.
-   * @param {Review} review a user review of this place
+   * @param {import('./PlaceDetails.js').Review} review a user review of this place
    */
   addReview(review) {
     this.#reviews.push(review);

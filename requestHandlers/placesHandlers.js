@@ -44,10 +44,9 @@ const parsePlaceDetails = result => {
 
   if (resultPhotos && resultPhotos.length > 0) {
     const photos = resultPhotos.map(resultPhoto => {
-      // Silly snake_case -> camelCase and camelCase -> snake_case conversion to satisfy the linter.
       const { height, width, photo_reference: photoReference } = resultPhoto;
 
-      return { height, width, photo_reference: photoReference };
+      return { height, width, photoReference };
     });
 
     photos.forEach(photo => placeDetailsBuilder.addPhoto(photo));
@@ -65,10 +64,10 @@ const parsePlaceDetails = result => {
       } = resultReview;
 
       return {
-        author_name: authorName,
-        profile_photo_url: profilePhotoUrl,
+        authorName,
+        profilePhotoUrl,
         rating: reviewRating,
-        relative_time_descrption: relativeTimeDescription,
+        relativeTimeDescription,
         text,
       };
     });

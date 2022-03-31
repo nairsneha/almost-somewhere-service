@@ -88,11 +88,11 @@ class PlaceDetails {
       placeId: this.#placeId,
       name: this.#name,
       location: this.#location,
-      business_status: this.#businessStatus,
-      formatted_address: this.#formattedAddress,
-      formatted_phone_number: this.#formattedPhoneNumber,
-      open_now: this.#openNow,
-      weekday_text: this.#weekdayText,
+      businessStatus: this.#businessStatus,
+      formattedAddress: this.#formattedAddress,
+      formattedPhoneNumber: this.#formattedPhoneNumber,
+      openNow: this.#openNow,
+      weekdayText: this.#weekdayText,
       photos: this.#photos,
       rating: this.#rating,
       reviews: this.#reviews,
@@ -116,7 +116,7 @@ class PlaceDetails {
 
 /**
  * @typedef {object} Photo - Represents a Photo element from the places response.
- * @property {string} photo_reference - a string used to identify the photo when you perform a Photo request
+ * @property {string} photoReference - a string used to identify the photo when you perform a Photo request
  * @property {number} height - max height of the image
  * @property {number} width - max width of the image
  */
@@ -124,22 +124,22 @@ class PlaceDetails {
 /**
  * @typedef {object} Review - Represents a review of a place posted on google.
  * @property {string} author_name - Name of the author of the review
- * @property {string} profile_photo_url - URL of the author's profile picture.
+ * @property {string} profilePhotoUrl - URL of the author's profile picture.
  * @property {number} rating - Rating the reviewer gave to this place
- * @property {string} relative_time_description - how long ago was this review posted in relative time e.g 'a week ago'
+ * @property {string} relativeTimeDescription - how long ago was this review posted in relative time e.g 'a week ago'
  * @property {string} text - text of review
  */
 
 /**
  * @typedef {object} PlaceDetail
- * @property {string} place_id id of the place
+ * @property {string} placeId id of the place
  * @property {string} name name of the establishment
  * @property {Location} location location (lat, lng) of the establishment
- * @property {string} business_status status of this business's operations
- * @property {string} formatted_address the formatted address of this place
- * @property {string} formatted_phone_number phone number
- * @property {boolean} open_now whether the place is open right now
- * @property {string[]} weekday_text information regarding the time of operations
+ * @property {string} businessStatus status of this business's operations
+ * @property {string} formattedAddress the formatted address of this place
+ * @property {string} formattedPhoneNumber phone number
+ * @property {boolean} openNow whether the place is open right now
+ * @property {string[]} weekdayText information regarding the time of operations
  * @property {Photo[]} photos an array of photos of this place
  * @property {number} rating overall rating of the business
  * @property {Review[]} reviews an array of user reviews of the establishment
