@@ -3,7 +3,7 @@
  * Contains information regarding whether the request was successfull,
  * an infromative message, and the actual API response body.
  */
-class ClientResponse {
+class Response {
   #isOk;
 
   #message;
@@ -11,7 +11,7 @@ class ClientResponse {
   #response;
 
   /**
-   * Creates a new `ClientResponse` with the given data.
+   * Creates a new `Response` with the given data.
    *
    * @param {boolean} isOk whether the request was successfully processed
    * @param {string} message an informative message associated with the given response
@@ -44,4 +44,4 @@ class ClientResponse {
   }
 }
 
-export default ClientResponse;
+export default Response;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { GCP_API_KEY } from '../config.js';
-import ClientResponse from '../dtos/ClientResponse.js';
+import Response from '../dtos/Response.js';
 
 // Add all the calls to Placces Search API here
 
@@ -32,7 +32,7 @@ placesDetailsStatuses.set('UNKNOWN_ERROR', 'An unknown error occured!');
  * Docs: https://developers.google.com/maps/documentation/places/web-service/details#PlaceDetailsResponses
  *
  * @param {string} placeId Google Place's `place_id` for which the details are to be fetched.
- * @returns {ClientResponse} the response data
+ * @returns {Response} the response data
  */
 const getPlaceDetails = async placeId => {
   const response = await placesInstance.get(`/details/json`, {
@@ -45,7 +45,7 @@ const getPlaceDetails = async placeId => {
   const message = placesDetailsStatuses.get(response?.data?.status) || 'An unknown error occured!';
   const data = response?.data?.result;
 
-  const res = new ClientResponse(isOk, message, data);
+  const res = new Response(isOk, message, data);
   return res;
 };
 

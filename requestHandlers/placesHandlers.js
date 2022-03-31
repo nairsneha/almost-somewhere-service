@@ -1,5 +1,5 @@
 import getPlaceDetails from '../client/placesClient.js';
-import ClientResponse from '../dtos/ClientResponse.js';
+import Response from '../dtos/Response.js';
 import PlaceDetails from '../dtos/PlaceDetails.js';
 
 /**
@@ -53,7 +53,6 @@ const parsePlaceDetails = result => {
   }
 
   if (resultReviews && resultReviews.length > 0) {
-    // Silly snake_case -> camelCase and camelCase -> snake_case conversion to satisfy the linter.
     const reviews = resultReviews.map(resultReview => {
       const {
         author_name: authorName,
@@ -80,11 +79,11 @@ const parsePlaceDetails = result => {
 
 // TODO: edit
 const placeDetailsHandler = async placeId => {
-  const clientResponse = await getPlaceDetails(placeId);
+  const response = await getPlaceDetails(placeId);
 
-  const placesDetails = clientResponse.isOk ? parsePlaceDetails(clientResponse.response) : {};
+  const placesDetails = response.isOk ? parsePlaceDetails(response.response) : {};
 
-  return new ClientResponse(clientResponse.isOk, clientResponse.message, placesDetails);
+  return new Response(response.isOk, response.message, placesDetails);
 };
 
 export default placeDetailsHandler;
