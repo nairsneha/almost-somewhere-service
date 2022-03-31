@@ -39,7 +39,7 @@ class Response {
     return {
       isOk: this.#isOk,
       message: this.#message,
-      response: this.#response.toJSON() || { ...this.#response },
+      response: this.#response?.toJSON ? this.#response?.toJSON() : { ...this.#response },
     };
   }
 }
