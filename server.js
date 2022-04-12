@@ -2,7 +2,7 @@ import express from 'express';
 import CORS from 'cors';
 import volleyball from 'volleyball';
 import addAllRoutes from './router/index.js';
-import placesNearbyController from "./controller/placesNearbyController.js";
+import placesNearbyController from "./controller/placesController.js";
 
 const app = express();
 

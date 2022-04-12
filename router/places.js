@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import placeDetailsHandler from '../requestHandlers/placesHandlers.js';
+import {placeDetailsHandler} from '../requestHandlers/placesHandlers.js';
 import fetch from "node-fetch";
 import axios from 'axios';
 /**

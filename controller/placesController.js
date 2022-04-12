@@ -1,5 +1,5 @@
 import {StatusCodes} from "http-status-codes";
-import placesNearbyHandler from "../requestHandlers/placesNearbyHandler.js";
+import {placesNearbyHandler} from "../requestHandlers/placesHandlers.js";
 
 /**
  * This method handles the get request with the given URL and the parameters mentioned in the
