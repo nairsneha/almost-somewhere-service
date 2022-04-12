@@ -1,4 +1,4 @@
-import getPlaceDetails from '../client/placesClient.js';
+import { getPlaceDetails, getPlacePhoto } from '../client/placesClient.js';
 import Response from '../dtos/Response.js';
 import PlaceDetails from '../dtos/PlaceDetails.js';
 
@@ -85,7 +85,7 @@ const parsePlaceDetails = result => {
  * @returns {Promise<Response>} a {@link Response} with {@link PlaceDetails} as response if there exists a valid place with the
  * given `placeId`.
  */
-const placeDetailsHandler = async placeId => {
+export const placeDetailsHandler = async placeId => {
   const response = await getPlaceDetails(placeId);
 
   const placesDetails = response.isOk ? parsePlaceDetails(response.response) : {};
@@ -93,5 +93,9 @@ const placeDetailsHandler = async placeId => {
   return new Response(response.isOk, response.message, placesDetails);
 };
 
-// TODO: convert default export to named export when we export more functions from this file.
-export default placeDetailsHandler;
+export const placePhotoHandler = async (photoReference, maxHeight, maxWidth) => {
+  // TODO: validation
+
+  const res = await getPlacePhoto(photoReference, maxHeight, maxWidth);
+  return res;
+};

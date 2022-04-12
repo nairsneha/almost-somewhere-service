@@ -35,7 +35,7 @@ placesDetailsStatuses.set('UNKNOWN_ERROR', 'An unknown error occured!');
  * @param {string} placeId Google Place's `place_id` for which the details are to be fetched.
  * @returns {Response} the response data
  */
-const getPlaceDetails = async placeId => {
+export const getPlaceDetails = async placeId => {
   assert(placeId && typeof placeId === typeof 'somestring', 'placeId must be valid');
 
   const response = await placesInstance.get(`/details/json`, {
@@ -52,4 +52,15 @@ const getPlaceDetails = async placeId => {
   return res;
 };
 
-export default getPlaceDetails;
+export const getPlacePhoto = async (photoReference, maxHeight, maxWidth) => {
+  const response = await placesInstance.get('/photo', {
+    params: {
+      photo_reference: photoReference,
+      maxheight: maxHeight,
+      maxwidth: maxWidth,
+    },
+    responseType: 'arraybuffer',
+  });
+
+  return response;
+};

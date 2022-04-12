@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import placeDetailsHandler from '../requestHandlers/placesHandlers.js';
+import { placeDetailsHandler, placePhotoHandler } from '../requestHandlers/placesHandlers.js';
 
 /**
  * Adds all the necessary routes related to dealing with
@@ -14,7 +14,26 @@ const addPlacesRoutes = app => {
       res.status(StatusCodes.OK).json(response);
     } catch (err) {
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        message: 'Internal server error',
+        message: err.message || 'Internal server error',
+      });
+    }
+  });
+
+  app.get('/places/photo', async (req, res) => {
+    const { photo_reference: photoReference, maxheight: maxHeight, maxwidth: maxWidth } = req.query;
+
+    try {
+      const response = await placePhotoHandler(photoReference, maxHeight, maxWidth);
+      res.set({
+        'content-type': 'image/jpeg',
+        'alt-svc': response.headers['alt-svc'],
+        'content-disposition': response.headers['content-disposition'],
+        'etag': response.headers.etag,
+      });
+      res.status(StatusCodes.OK).send(response.data);
+    } catch (err) {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: err.message || 'Internal server error',
       });
     }
   });
