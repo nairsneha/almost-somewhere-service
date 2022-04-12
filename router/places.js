@@ -1,6 +1,4 @@
 import { StatusCodes } from 'http-status-codes';
-import fetch from "node-fetch";
-import axios from 'axios';
 import { placeDetailsHandler, placePhotoHandler } from '../requestHandlers/placesHandlers.js';
 
 /**
@@ -40,8 +38,6 @@ const addPlacesRoutes = app => {
       });
     }
   });
-
-
 };
 
 export default addPlacesRoutes;

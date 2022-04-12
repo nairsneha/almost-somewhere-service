@@ -73,8 +73,8 @@ export const placesNearbyClient = async (longitude, latitude, type, radius) => {
   const response = await placesInstance.get(`/nearbysearch/json`, {
     params: {
       location: `${longitude},${latitude}`,
-      type: type,
-      radius: radius
+      type,
+      radius,
     },
   });
 
@@ -86,7 +86,7 @@ export const placesNearbyClient = async (longitude, latitude, type, radius) => {
   const res = new Response(isOk, message, data);
 
   return res;
-}
+};
 /*
  *  Gets the photo (in the form of an arraybuffer (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data)) of the
  * place with the given `photoReference` from Google.
@@ -112,4 +112,3 @@ export const getPlacePhoto = async (photoReference, maxHeight, maxWidth) => {
 
   return response;
 };
-
