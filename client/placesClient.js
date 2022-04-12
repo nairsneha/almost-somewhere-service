@@ -53,6 +53,7 @@ export const getPlaceDetails = async placeId => {
 };
 
 /**
+<<<<<<< HEAD
  * Requests the Google Places API to get the nearby places
  * of the place specified by the given latitude, longitude in a radius of 'radius' and the type of
  * locations mentioned in 'type'.
@@ -88,3 +89,29 @@ export const placesNearbyClient = async (longitude, latitude, type, radius) => {
 }
 
 
+=======
+ *  Gets the photo (in the form of an arraybuffer (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data)) of the
+ * place with the given `photoReference` from Google.
+ *  The response's content type is 'image/jpeg'.
+ *
+ * Reference: Google's own JS wrapper around the Places API - https://github.com/googlemaps/google-maps-services-js/blob/master/src/places/photo.ts
+ *
+ * @param {string} photoReference string identifier that uniquely identifies a photo. Photo references are returned from either a Place Search or Place Details request.
+ * @param {integer} maxHeight Specifies the maximum desired height or width, in pixels, of the image returned by the Place Photos service. If the image is smaller than the values specified, the original image will be returned. If the image is larger in either dimension, it will be scaled to match the smaller of the two dimensions, restricted to its original aspect ratio. Both the `maxheight` and `maxwidth` properties accept an integer between 1 and 1600.
+ * @param {integer} maxWidth  Specifies the maximum desired height or width, in pixels, of the image returned by the Place Photos service. If the image is smaller than the values specified, the original image will be returned. If the image is larger in either dimension, it will be scaled to match the smaller of the two dimensions, restricted to its original aspect ratio. Both the `maxheight` and `maxwidth` properties accept an integer between 1 and 1600.
+ * @returns the `response` from Google Places API / Photo. The `response.headers['content-type']` contains the type of the image that is returned, and `response.data` contains the actual image in the form of an arraybuffer. Throws an HTTP 400 if there's a problem with the request (See: https://developers.google.com/maps/documentation/places/web-service/photos#place_photo_response)
+ */
+export const getPlacePhoto = async (photoReference, maxHeight, maxWidth) => {
+  assert(maxHeight || maxWidth, 'maxheight or maxwidth must be specified.');
+  const response = await placesInstance.get('/photo', {
+    params: {
+      photo_reference: photoReference,
+      maxheight: maxHeight,
+      maxwidth: maxWidth,
+    },
+    responseType: 'arraybuffer', // Asks the server to return binary data (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data)
+  });
+
+  return response;
+};
+>>>>>>> e7a0b08137715e94c948d459ea4022abeada9f23

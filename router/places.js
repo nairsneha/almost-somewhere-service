@@ -1,7 +1,14 @@
 import { StatusCodes } from 'http-status-codes';
+<<<<<<< HEAD
 import {placeDetailsHandler} from '../requestHandlers/placesHandlers.js';
+=======
+
+import placeDetailsHandler from '../requestHandlers/placesHandlers.js';
+>>>>>>> e7a0b08137715e94c948d459ea4022abeada9f23
 import fetch from "node-fetch";
 import axios from 'axios';
+import { placeDetailsHandler, placePhotoHandler } from '../requestHandlers/placesHandlers.js';
+
 /**
  * Adds all the necessary routes related to dealing with
  * the Google Places API to the `app`.
@@ -16,7 +23,26 @@ const addPlacesRoutes = app => {
       res.status(StatusCodes.OK).json(response);
     } catch (err) {
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        message: 'Internal server error',
+        message: err.message || 'Internal server error',
+      });
+    }
+  });
+
+  // Get the photo from Google Places API given the photo_reference and maxheight or maxwidth
+  app.get('/places/photo', async (req, res) => {
+    const { photo_reference: photoReference, maxheight: maxHeight, maxwidth: maxWidth } = req.query;
+
+    // This request's GET URL can be directly def to <img>'s `src`.
+    try {
+      const response = await placePhotoHandler(photoReference, maxHeight, maxWidth);
+      res.set({
+        'content-type': response.headers['content-type'], // Get the type of this image
+      });
+      res.status(StatusCodes.OK).send(response.data);
+    } catch (err) {
+      // The client may return an HTTP 400 or 403. See : https://developers.google.com/maps/documentation/places/web-service/photos#place_photo_response
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: err.message || 'Internal server error',
       });
     }
   });
