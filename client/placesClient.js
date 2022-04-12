@@ -53,11 +53,10 @@ export const getPlaceDetails = async placeId => {
 };
 
 /**
-<<<<<<< HEAD
  * Requests the Google Places API to get the nearby places
  * of the place specified by the given latitude, longitude in a radius of 'radius' and the type of
  * locations mentioned in 'type'.
- * example: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=42.3417141,-71.0856371&radius=5000&type=gym|movie_theater|university&key=AIzaSyDW7vVFZuiP2LR320PUxuHjjVqmZ0ogF7o'
+ * example: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=42.3417141,-71.0856371&radius=5000&type=gym|movie_theater|university'
  *
  * @param {String} longitude longitude for which we need to fetch the nearby places
  * @param {String} latitude latitude for which we need to fetch the nearby places
@@ -87,9 +86,7 @@ export const placesNearbyClient = async (longitude, latitude, type, radius) => {
   const res = new Response(isOk, message, data);
   return res;
 }
-
-
-=======
+/*
  *  Gets the photo (in the form of an arraybuffer (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data)) of the
  * place with the given `photoReference` from Google.
  *  The response's content type is 'image/jpeg'.
@@ -114,4 +111,4 @@ export const getPlacePhoto = async (photoReference, maxHeight, maxWidth) => {
 
   return response;
 };
->>>>>>> e7a0b08137715e94c948d459ea4022abeada9f23
+
