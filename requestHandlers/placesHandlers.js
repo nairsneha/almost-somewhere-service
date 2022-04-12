@@ -1,4 +1,4 @@
-import getPlaceDetails from '../client/placesClient.js';
+import { getPlaceDetails, getPlacePhoto } from '../client/placesClient.js';
 import Response from '../dtos/Response.js';
 import PlaceDetails from '../dtos/PlaceDetails.js';
 
@@ -85,7 +85,7 @@ const parsePlaceDetails = result => {
  * @returns {Promise<Response>} a {@link Response} with {@link PlaceDetails} as response if there exists a valid place with the
  * given `placeId`.
  */
-const placeDetailsHandler = async placeId => {
+export const placeDetailsHandler = async placeId => {
   const response = await getPlaceDetails(placeId);
 
   const placesDetails = response.isOk ? parsePlaceDetails(response.response) : {};
@@ -93,5 +93,22 @@ const placeDetailsHandler = async placeId => {
   return new Response(response.isOk, response.message, placesDetails);
 };
 
-// TODO: convert default export to named export when we export more functions from this file.
-export default placeDetailsHandler;
+/**
+ *  Gets the photo (in the form of an arraybuffer (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data)) of the
+ * place with the given `photoReference` from Google.
+ *  The response's content type is 'image/jpeg'.
+ *
+ * Reference: Google's own JS wrapper around the Places API - https://github.com/googlemaps/google-maps-services-js/blob/master/src/places/photo.ts
+ *
+ * @param {string} photoReference string identifier that uniquely identifies a photo. Photo references are returned from either a Place Search or Place Details request.
+ * @param {integer} maxHeight Specifies the maximum desired height or width, in pixels, of the image returned by the Place Photos service. If the image is smaller than the values specified, the original image will be returned. If the image is larger in either dimension, it will be scaled to match the smaller of the two dimensions, restricted to its original aspect ratio. Both the `maxheight` and `maxwidth` properties accept an integer between 1 and 1600.
+ * @param {integer} maxWidth  Specifies the maximum desired height or width, in pixels, of the image returned by the Place Photos service. If the image is smaller than the values specified, the original image will be returned. If the image is larger in either dimension, it will be scaled to match the smaller of the two dimensions, restricted to its original aspect ratio. Both the `maxheight` and `maxwidth` properties accept an integer between 1 and 1600.
+ * @returns the `response` from Google Places API / Photo. The `response.headers['content-type']` contains the type of the image that is returned, and `response.data` contains the actual image in the form of an arraybuffer.
+ */
+export const placePhotoHandler = async (photoReference, maxHeight, maxWidth) => {
+  const response = await getPlacePhoto(photoReference, maxHeight, maxWidth);
+
+  // We're directly returning the response because the data from the response is in Binary form. We will also need the response's header data to
+  // return our own response.
+  return response;
+};
