@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import {getPlaceDetails, placesNearbyClient} from '../client/placesClient.js';
-=======
-import { getPlaceDetails, getPlacePhoto } from '../client/placesClient.js';
->>>>>>> e7a0b08137715e94c948d459ea4022abeada9f23
+import {getPlaceDetails, placesNearbyClient, getPlacePhoto} from '../client/placesClient.js';
 import Response from '../dtos/Response.js';
 import PlaceDetails from '../dtos/PlaceDetails.js';
 
@@ -109,23 +105,13 @@ export const placeDetailsHandler = async placeId => {
  * exists a valid place with the given parameters.
  */
 
-<<<<<<< HEAD
 export const placesNearbyHandler = async (longitude, latitude, type, radius) => {
   const response = await placesNearbyClient(longitude, latitude, type, radius);
   const placesNearby = response.isOk ? response.response : {};
-=======
 
-const nearbyPlaceDetailsHandler = async (longitude, latitude, type , radius) => {
-  const response = await getPlaceDetails();
->>>>>>> e7a0b08137715e94c948d459ea4022abeada9f23
+    return new Response(response.isOk, response.message, placesNearby);
 
-  return new Response(response.isOk, response.message, placesNearby);
 }
-
-<<<<<<< HEAD
-=======
-// TODO: convert default export to named export when we export more functions from this file.
-export default placeDetailsHandler;
 
 /**
  *  Gets the photo (in the form of an arraybuffer (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data)) of the
@@ -145,6 +131,5 @@ export const placePhotoHandler = async (photoReference, maxHeight, maxWidth) => 
   // We're directly returning the response because the data from the response is in Binary form. We will also need the response's header data to
   // return our own response.
   return response;
-};
+}
 
->>>>>>> e7a0b08137715e94c948d459ea4022abeada9f23

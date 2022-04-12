@@ -84,6 +84,7 @@ export const placesNearbyClient = async (longitude, latitude, type, radius) => {
   const data = response?.data;
 
   const res = new Response(isOk, message, data);
+
   return res;
 }
 /*

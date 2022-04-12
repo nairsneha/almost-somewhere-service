@@ -1,10 +1,4 @@
 import { StatusCodes } from 'http-status-codes';
-<<<<<<< HEAD
-import {placeDetailsHandler} from '../requestHandlers/placesHandlers.js';
-=======
-
-import placeDetailsHandler from '../requestHandlers/placesHandlers.js';
->>>>>>> e7a0b08137715e94c948d459ea4022abeada9f23
 import fetch from "node-fetch";
 import axios from 'axios';
 import { placeDetailsHandler, placePhotoHandler } from '../requestHandlers/placesHandlers.js';
