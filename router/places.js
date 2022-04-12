@@ -19,19 +19,19 @@ const addPlacesRoutes = app => {
     }
   });
 
+  // Get the photo from Google Places API given the photo_reference and maxheight or maxwidth
   app.get('/places/photo', async (req, res) => {
     const { photo_reference: photoReference, maxheight: maxHeight, maxwidth: maxWidth } = req.query;
 
+    // This request's GET URL can be directly def to <img>'s `src`.
     try {
       const response = await placePhotoHandler(photoReference, maxHeight, maxWidth);
       res.set({
-        'content-type': 'image/jpeg',
-        'alt-svc': response.headers['alt-svc'],
-        'content-disposition': response.headers['content-disposition'],
-        'etag': response.headers.etag,
+        'content-type': response.headers['content-type'], // Get the type of this image
       });
       res.status(StatusCodes.OK).send(response.data);
     } catch (err) {
+      // The client may return an HTTP 400 or 403. See : https://developers.google.com/maps/documentation/places/web-service/photos#place_photo_response
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: err.message || 'Internal server error',
       });
