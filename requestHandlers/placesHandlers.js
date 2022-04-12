@@ -1,4 +1,4 @@
-import { getPlaceDetails, getPlacePhoto } from '../client/placesClient.js';
+import {getPlaceDetails, placesNearbyClient, getPlacePhoto} from '../client/placesClient.js';
 import Response from '../dtos/Response.js';
 import PlaceDetails from '../dtos/PlaceDetails.js';
 
@@ -78,7 +78,7 @@ const parsePlaceDetails = result => {
 };
 
 /**
- * Gets the necessary information regaring the place specified by the
+ * Gets the necessary information regarding the place specified by the
  * `placeId`.
  *
  * @param {string} placeId `place_id` of the place as obtained from Google.
@@ -92,6 +92,26 @@ export const placeDetailsHandler = async placeId => {
 
   return new Response(response.isOk, response.message, placesDetails);
 };
+
+/**
+ * Gets the nearby locations mentioned in type of place specified by the
+ * longitude, latitude, radius.
+ *
+ * @param {String} longitude longitude for which we need to fetch the nearby places
+ * @param {String} latitude latitude for which we need to fetch the nearby places
+ * @param {String} type type of places to be retrieved
+ * @param {Number} radius the radius in which we are fetching the nearby
+ * @returns {Promise<Response>} a {@link Response} with {@link placesNearby} as response if there
+ * exists a valid place with the given parameters.
+ */
+
+export const placesNearbyHandler = async (longitude, latitude, type, radius) => {
+  const response = await placesNearbyClient(longitude, latitude, type, radius);
+  const placesNearby = response.isOk ? response.response : {};
+
+    return new Response(response.isOk, response.message, placesNearby);
+
+}
 
 /**
  *  Gets the photo (in the form of an arraybuffer (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data)) of the
@@ -111,4 +131,5 @@ export const placePhotoHandler = async (photoReference, maxHeight, maxWidth) => 
   // We're directly returning the response because the data from the response is in Binary form. We will also need the response's header data to
   // return our own response.
   return response;
-};
+}
+

@@ -1,4 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
+import fetch from "node-fetch";
+import axios from 'axios';
 import { placeDetailsHandler, placePhotoHandler } from '../requestHandlers/placesHandlers.js';
 
 /**
@@ -6,6 +8,7 @@ import { placeDetailsHandler, placePhotoHandler } from '../requestHandlers/place
  * the Google Places API to the `app`.
  * @param {Express} app the express app to add the routes to
  */
+
 const addPlacesRoutes = app => {
   // Get the details for the place specified by the placeId
   app.get('/places/details/:placeId', async (req, res) => {
@@ -37,6 +40,8 @@ const addPlacesRoutes = app => {
       });
     }
   });
+
+
 };
 
 export default addPlacesRoutes;
