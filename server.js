@@ -2,6 +2,7 @@ import express from 'express';
 import CORS from 'cors';
 import volleyball from 'volleyball';
 import addAllRoutes from './router/index.js';
+import placesNearbyController from "./controller/placesNearbyController.js";
 
 const app = express();
 
@@ -11,8 +12,9 @@ app.use(express.json());
 app.use(volleyball);
 
 app.use(CORS());
-
+placesNearbyController(app);
 addAllRoutes(app);
+
 
 const port = process.env.PORT || 8081;
 app.listen(port, () => {

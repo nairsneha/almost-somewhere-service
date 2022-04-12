@@ -33,7 +33,7 @@ class PlaceDetails {
   #website;
 
   /**
-   * Creates a new PlaceDetails instance that contains various informtion regarding the place like
+   * Creates a new PlaceDetails instance that contains various information regarding the place like
    * name, location, opening hours, etc.
    *
    * @param {string} placeId id of the place

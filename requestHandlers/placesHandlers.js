@@ -93,5 +93,14 @@ const placeDetailsHandler = async placeId => {
   return new Response(response.isOk, response.message, placesDetails);
 };
 
+
+const nearbyPlaceDetailsHandler = async (longitude, latitude, type , radius) => {
+  const response = await getPlaceDetails();
+
+  const placesDetails = response.isOk ? parsePlaceDetails(response.response) : {};
+
+  return new Response(response.isOk, response.message, placesDetails);
+};
+
 // TODO: convert default export to named export when we export more functions from this file.
 export default placeDetailsHandler;

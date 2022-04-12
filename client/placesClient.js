@@ -3,7 +3,7 @@ import { GCP_API_KEY } from '../config.js';
 import Response from '../dtos/Response.js';
 import { assert } from '../utils.js';
 
-// Add all the calls to Placces Search API here
+// Add all the calls to Places Search API here
 
 // `placesInstance` is an Axios Instance (https://axios-http.com/docs/instance).
 // With this instance, the query parameter 'key' will be automatically appended at the end
@@ -25,7 +25,7 @@ placesDetailsStatuses.set('NOT_FOUND', "Couldn't find a place with the given id!
 placesDetailsStatuses.set('INVALID_REQUEST', 'The request was malformed!');
 placesDetailsStatuses.set('OVER_QUERY_LIMIT', 'Exceeded query limit.');
 placesDetailsStatuses.set('REQUEST_DENIED', 'Problem with the API key.');
-placesDetailsStatuses.set('UNKNOWN_ERROR', 'An unknown error occured!');
+placesDetailsStatuses.set('UNKNOWN_ERROR', 'An unknown error occurred!');
 
 /**
  * Requests the Google Places API to get the details
