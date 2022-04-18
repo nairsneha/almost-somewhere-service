@@ -1,4 +1,4 @@
-import {getPlaceDetails, placesNearbyClient, getPlacePhoto} from '../client/placesClient.js';
+import { getPlaceDetails, placesNearbyClient, getPlacePhoto } from '../client/placesClient.js';
 import Response from '../dtos/Response.js';
 import PlaceDetails from '../dtos/PlaceDetails.js';
 
@@ -109,9 +109,8 @@ export const placesNearbyHandler = async (longitude, latitude, type, radius) => 
   const response = await placesNearbyClient(longitude, latitude, type, radius);
   const placesNearby = response.isOk ? response.response : {};
 
-    return new Response(response.isOk, response.message, placesNearby);
-
-}
+  return new Response(response.isOk, response.message, placesNearby);
+};
 
 /**
  *  Gets the photo (in the form of an arraybuffer (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data)) of the
@@ -131,5 +130,4 @@ export const placePhotoHandler = async (photoReference, maxHeight, maxWidth) => 
   // We're directly returning the response because the data from the response is in Binary form. We will also need the response's header data to
   // return our own response.
   return response;
-}
-
+};

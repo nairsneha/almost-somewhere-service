@@ -16,7 +16,7 @@ class ResponseStatus extends Response {
    * @param {object} response body of the response
    * @param {number} status HTTP status code associated with this request
    */
-  constructor(isOk, message, response, status = 200) {
+  constructor(isOk = false, message = '', response = {}, status = 200) {
     super(isOk, message, response);
     this.#status = status;
   }
