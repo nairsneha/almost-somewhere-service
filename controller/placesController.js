@@ -23,6 +23,11 @@ const getNearbyPlaces = async (req, res) => {
 
 /**
  * Get the photo from Google Places API given the photo_reference and maxheight or maxwidth.
+ *
+ * Takes the following as query params:
+ * - `photo_reference`: string identifier that uniquely identifies a photo.
+ * - `maxheight`: Specifies the maximum desired height or width, in pixels.
+ * - `maxwidth`: Specifies the maximum desired height or width, in pixels.
  */
 const getPlacePhoto = async (req, res) => {
   const { photo_reference: photoReference, maxheight: maxHeight, maxwidth: maxWidth } = req.query;
@@ -44,6 +49,8 @@ const getPlacePhoto = async (req, res) => {
 
 /**
  * Get the details for the place specified by the placeId.
+ *
+ * Takes the `placeId` in request params.
  */
 const getPlaceDetails = async (req, res) => {
   try {
