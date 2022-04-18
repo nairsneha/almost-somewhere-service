@@ -1,4 +1,4 @@
-import Response from './Response';
+import Response from './Response.js';
 
 /**
  * Represents a response obtained by making a request.

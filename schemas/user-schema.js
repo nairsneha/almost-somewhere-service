@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import roles from '../roles';
+import roles from '../roles.js';
 
 // Schema for the user. We will identify each user by their username.
 const userSchema = mongoose.Schema({
