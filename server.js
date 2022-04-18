@@ -1,7 +1,12 @@
 import express from 'express';
 import CORS from 'cors';
 import volleyball from 'volleyball';
+import mongoose from 'mongoose';
 import placesController from './controller/placesController.js';
+import { MONGO_CONNECTION_STRING } from './config.js';
+
+// Connect to the AlmostSomewhere database
+mongoose.connect(MONGO_CONNECTION_STRING);
 
 const app = express();
 
