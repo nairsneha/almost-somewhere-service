@@ -5,6 +5,12 @@ import ResponseStatus from '../dtos/ResponseStatus.js';
 import userDao from '../daos/user-dao.js';
 import { JWT_SECRET } from '../config.js';
 
+/**
+ * Generates the signed access token for specified user. Utilizes only the user's `username` and `role` to generate the token.
+ *
+ * @param {*} dbUser the user for which the token is to be created.
+ * @returns {{accessToken: String}} the signed `accessToken`
+ */
 const generateAccessToken = dbUser => {
   const userWithoutPassword = {
     username: dbUser.username,
@@ -22,7 +28,7 @@ const generateAccessToken = dbUser => {
  * Throws an error if the user with the given username already exists; or if validation fails.
  * Expects an object of the type {@link userSchema}.
  * @param {{username: String, password: String, role: string}} newUser
- * @returns a {@link ResponseStatus} with the created user.
+ * @returns a {@link ResponseStatus} with the newly created user's JWT.
  */
 export const createUserHandler = async newUser => {
   if (!newUser.password) {
@@ -56,7 +62,7 @@ export const createUserHandler = async newUser => {
  * Throws an error if the user with the given username and password doesn't exist.
  *
  * @param {{username: String, password: String}} user user to be logged in
- * @returns a {@link ResponseStatus} with the logged in user
+ * @returns a {@link ResponseStatus} with the logged in user's JWT
  */
 export const loginUserHandler = async user => {
   const dbUser = await userDao.findUserByUsername(user?.username);
