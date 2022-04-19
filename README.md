@@ -19,11 +19,14 @@ Sample `.env` file:
 
 ```
 GCP_API_KEY=your_google_cloud_api_key
+MONGO_CONNECTION_STRING=mongodb_connection_string
+JWT_SECRET=superSecret_string_to_sign_jwts
 ```
 
 ## Running Locally
 
 Make sure you have all the environment variables set up.
 
-- Install the necessary dependancies by running `npm install` in the directory containing `package.json`.
+- Install the necessary dependancies by running `npm install` in the directory containing
+  `package.json`.
 - To start the development server, run `npm start`.
