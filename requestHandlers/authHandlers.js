@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import ResponseStatus from '../dtos/ResponseStatus.js';
-import userDao from '../daos/user-dao.js';
+import userDao from '../daos/userDao.js';
 import { JWT_SECRET } from '../config.js';
 
 /**
