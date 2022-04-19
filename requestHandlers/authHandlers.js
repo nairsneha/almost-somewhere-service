@@ -1,7 +1,20 @@
 import { StatusCodes } from 'http-status-codes';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import ResponseStatus from '../dtos/ResponseStatus.js';
 import userDao from '../daos/user-dao.js';
+import { JWT_SECRET } from '../config.js';
+
+const generateAccessToken = dbUser => {
+  const userWithoutPassword = {
+    username: dbUser.username,
+    role: dbUser.role,
+  };
+
+  const accessToken = jwt.sign(userWithoutPassword, JWT_SECRET);
+
+  return { accessToken };
+};
 
 /**
  * Creates a new user in the database using the given credentials. Hashes the password provided before
@@ -26,13 +39,13 @@ export const createUserHandler = async newUser => {
     );
   }
 
-  // TODO: Sign and return JWT
   // All good, proceed to create the user
   try {
     const hashedPassword = await bcrypt.hash(newUser.password, 10);
     const userToBeCreated = { ...newUser, password: hashedPassword };
     const createdUser = await userDao.createUser(userToBeCreated); // might throw validation errors
-    return new ResponseStatus(true, 'user created', createdUser, StatusCodes.OK);
+    const accessToken = generateAccessToken(createdUser);
+    return new ResponseStatus(true, 'user created', accessToken, StatusCodes.OK);
   } catch (error) {
     return new ResponseStatus(false, error.message, {}, StatusCodes.BAD_REQUEST);
   }
@@ -59,11 +72,10 @@ export const loginUserHandler = async user => {
     return errorResponse;
   }
 
-  // TODO: Sign and send JWT
-
   try {
     if (await bcrypt.compare(user.password, dbUser.password)) {
-      return new ResponseStatus(true, 'Logged in', dbUser, StatusCodes.OK);
+      const accessToken = generateAccessToken(dbUser);
+      return new ResponseStatus(true, 'Logged in', accessToken, StatusCodes.OK);
     }
 
     return errorResponse;
