@@ -87,7 +87,8 @@ export const placesNearbyClient = async (longitude, latitude, type, radius) => {
 
   return res;
 };
-/*
+
+/**
  *  Gets the photo (in the form of an arraybuffer (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data)) of the
  * place with the given `photoReference` from Google.
  *  The response's content type is 'image/jpeg'.

@@ -1,6 +1,6 @@
 /**
  * Represents a response obtained by making a request.
- * Contains information regarding whether the request was successfull,
+ * Contains information regarding whether the request was successful,
  * an informative message, and the actual response body.
  */
 class Response {

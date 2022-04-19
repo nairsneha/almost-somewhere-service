@@ -7,7 +7,12 @@ dotenv.config();
 // export them as JS constants.
 
 assert(process.env.GCP_API_KEY !== undefined, 'Environment variable GCP_API_KEY must be set.');
+assert(
+  process.env.MONGO_CONNECTION_STRING !== undefined,
+  'Environment variable MONGO_CONNECTION_STRING must be set.',
+);
+assert(process.env.JWT_SECRET !== undefined, 'Environment variable JWT_SECRET must be set.');
 
-// TODO: Remove eslint-disable statement after we export more things from this file.
-// eslint-disable-next-line import/prefer-default-export
 export const { GCP_API_KEY } = process.env;
+export const { MONGO_CONNECTION_STRING } = process.env;
+export const { JWT_SECRET } = process.env;
