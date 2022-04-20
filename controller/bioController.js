@@ -7,12 +7,12 @@ import {StatusCodes} from "http-status-codes";
  */
 const getBio = async (req, res, next) => {
     try {
-
+     //   authenticate(req, res, next);
         const response = await getBioHandler(req.params.username);
-    //    authenticate(req, res, next);
         res.status(response.status || StatusCodes.OK).json(response);
     }
     catch (err) {
+
         res
             .status(StatusCodes.UNAUTHORIZED)
             .json({ message: err.message || 'User not authenticated' });
@@ -67,9 +67,9 @@ const updateBio = async (req, res, next) => {
  * @param app {Express} app the express app to add the routes to
  */
 const bioController = app => {
-    app.get('/username/:username/bio', getBio);
-    app.post('/bio', createBio);
-    app.put('/bio', updateBio);
+    app.get('/username/:username/bio',authenticate, getBio);
+    app.post('/bio',authenticate, createBio);
+    app.put('/bio',authenticate, updateBio);
 };
 
 export default bioController;
