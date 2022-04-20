@@ -11,13 +11,13 @@ import { JWT_SECRET } from '../config.js';
 const authenticate = (req, res, next) => {
   // Expects a bearer token, i.e 'Bearer *ACCESS TOKEN*'
   const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split('.')[1];
+  const token = authHeader && authHeader.split(' ')[1];
   if (!token) {
     res.sendStatus(StatusCodes.UNAUTHORIZED);
   }
   // Because we don't need to return anything if we call next();
   // eslint-disable-next-line consistent-return
-  jwt.verify(authHeader, JWT_SECRET, (err, user) => {
+  jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
       return res.sendStatus(StatusCodes.UNAUTHORIZED);
     }
