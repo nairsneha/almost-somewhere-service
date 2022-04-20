@@ -2,10 +2,14 @@ import {getBioHandler,createBioHandler,updateBioHandler} from "../requestHandler
 import authenticate from "../middlewares/authMiddlewares.js";
 import {StatusCodes} from "http-status-codes";
 
+/**
+ * Retrieves the bio of the user with the given unique username.
+ */
 const getBio = async (req, res, next) => {
     try {
-       // authenticate(req, res, next);
+
         const response = await getBioHandler(req.params.username);
+    //    authenticate(req, res, next);
         res.status(response.status || StatusCodes.OK).json(response);
     }
     catch (err) {
@@ -17,11 +21,18 @@ const getBio = async (req, res, next) => {
 
 }
 
+/**
+ * Creates a bio for the user with the given username since its unique
+ * It adds details of user like firstname, lastname, gender, age, favorites, followers, following
+ * @param req the http request from the client
+ * @param res the http response sent to client
+ */
 const createBio = async (req, res, next) => {
 
    try {
-       // authenticate(req, res, next);
+
         const response = await createBioHandler(req.body);
+    //   authenticate(req, res, next);
         res.status(response.status || StatusCodes.OK).json(response);
     }
     catch (err) {
@@ -31,12 +42,16 @@ const createBio = async (req, res, next) => {
     }
 
 }
-
+/**
+ * Updates the bio of the user with new details with given username
+ * @param req the http request from the client
+ * @param res the http response sent to client
+ */
 const updateBio = async (req, res, next) => {
 
     try {
-        // authenticate(req, res, next);
         const response = await updateBioHandler(req.body);
+     //   authenticate(req, res, next);
         res.status(response.status || StatusCodes.OK).json(response);
     }
     catch (err) {
@@ -47,6 +62,10 @@ const updateBio = async (req, res, next) => {
 
 }
 
+/**
+ * Controller for /auth. Adds all the necessary routes related to authentication to the app.
+ * @param app {Express} app the express app to add the routes to
+ */
 const bioController = app => {
     app.get('/username/:username/bio', getBio);
     app.post('/bio', createBio);
