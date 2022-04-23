@@ -1,6 +1,6 @@
+import {StatusCodes} from "http-status-codes";
 import ResponseStatus from '../dtos/ResponseStatus.js';
 import bioDao from "../daos/bioDao.js";
-import {StatusCodes} from "http-status-codes";
 
 /**
  * This is the handler to get the bio of the user with the given username.
