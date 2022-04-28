@@ -9,7 +9,7 @@ const reviewSchema = mongoose.Schema(
         text: {type: String},
         rating: {type: Number},
         placeId: {type: String},
-        placeName: {type: String}
+        // placeName: {type: String}
     }
 );
 export default reviewSchema;

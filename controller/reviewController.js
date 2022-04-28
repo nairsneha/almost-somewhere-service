@@ -3,21 +3,20 @@ import {
   getAllReviewsByPlaceHandler,
   getAllReviewsByUserHandler,
   createReviewHandler,
-  // updateReviewHandler,
+  deleteReviewHandler,
+  updateReviewHandler
 } from '../requestHandlers/reviewHandlers.js';
 import authenticate from '../middlewares/authMiddlewares.js';
 
 /**
- * Creates a review by user for the place with given 
- * placeId and username (from frontend in body)
+ * Creates a review by user for the place with given placeId
  * It adds text, rating
  * @param req the http request from the client
  * @param res the http response sent to client
  */
  const createReview = async (req, res) => {
   try {
-    const response = await createReviewHandler(req.body);
-    //   authenticate(req, res, next);
+    const response = await createReviewHandler(req.user.username, req.body);
     res.status(response.status || StatusCodes.OK).json(response);
   } catch (err) {
     res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
@@ -30,7 +29,6 @@ import authenticate from '../middlewares/authMiddlewares.js';
  */
 const getAllReviewsByPlace = async (req, res) => {
   try {
-    //   authenticate(req, res, next);
     const response = await getAllReviewsByPlaceHandler(req.params.placeId);
     res.status(response.status || StatusCodes.OK).json(response);
   } catch (err) {
@@ -43,8 +41,25 @@ const getAllReviewsByPlace = async (req, res) => {
  */
 const getAllReviewsByUser = async (req, res) => {
   try {
-    //   authenticate(req, res, next);
-    const response = await getAllReviewsByUserHandler(req.params.username);
+    const response = await getAllReviewsByUserHandler(req.user.username);
+    res.status(response.status || StatusCodes.OK).json(response);
+  } catch (err) {
+    res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
+  }
+}
+
+const deleteReview = async (req, res) => {
+  try {
+    const response = await deleteReviewHandler(req.user.username, req.params.placeId);
+    res.status(response.status || StatusCodes.OK).json(response);
+  } catch (err) {
+    res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
+  }
+}
+
+const updateReview = async (req, res) => {
+  try {
+    const response = await updateReviewHandler(req.user.username, req.params.placeId, req.body);
     res.status(response.status || StatusCodes.OK).json(response);
   } catch (err) {
     res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
@@ -52,9 +67,11 @@ const getAllReviewsByUser = async (req, res) => {
 }
 
 const reviewController = app => {
-  app.get('/places/details/:placeId/reviews', getAllReviewsByPlace)
-  app.get('/username/:username/reviews', getAllReviewsByUser)
-  app.post('/review', authenticate, createReview);
+  app.get('/reviews/places/:placeId', getAllReviewsByPlace)
+  app.get('/reviews', authenticate, getAllReviewsByUser)
+  app.post('/reviews', authenticate, createReview)
+  app.delete('/reviews/places/:placeId', authenticate, deleteReview)
+  app.put('/reviews/places/:placeId', authenticate, updateReview)
 }
 
 export default reviewController;
