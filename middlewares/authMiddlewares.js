@@ -39,5 +39,3 @@ export const authDeleteAnyReview = (req, res, next) => {
     }   
     next();
 }
-
-export default authenticate
