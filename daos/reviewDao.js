@@ -36,7 +36,6 @@ const createUserReview = async (givenUsername, userReview) => reviewModel.create
  */
  const deleteReview = async rid => reviewModel.deleteOne({id: rid});
 
-
 /**
  * Updtates the review of the user with the given username and placeId.
  * @param givenUsername
@@ -44,7 +43,7 @@ const createUserReview = async (givenUsername, userReview) => reviewModel.create
  * @param userReview the review object with the new params for the given username and place.
  */
 const updateUserReview = async (givenUsername, givenPlaceId, userReview) =>
- reviewModel.updateOne(
+ reviewModel.findOneAndUpdate(
     {username: givenUsername, placeId: givenPlaceId},
     {
         $set: {

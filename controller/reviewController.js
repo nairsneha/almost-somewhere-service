@@ -6,7 +6,7 @@ import {
   deleteReviewHandler,
   updateReviewHandler
 } from '../requestHandlers/reviewHandlers.js';
-import authenticate from '../middlewares/authMiddlewares.js';
+import {authenticate, authDeleteAnyReview} from '../middlewares/authMiddlewares.js';
 
 /**
  * Creates a review by user for the place with given placeId
@@ -57,6 +57,15 @@ const deleteReview = async (req, res) => {
   }
 }
 
+const deleteReviewByPlaceUser = async (req, res) => {
+  try {
+    const response = await deleteReviewHandler(req.params.username, req.params.placeId);
+    res.status(response.status || StatusCodes.OK).json(response);
+  } catch (err) {
+    res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
+  }
+}
+
 const updateReview = async (req, res) => {
   try {
     const response = await updateReviewHandler(req.user.username, req.params.placeId, req.body);
@@ -71,6 +80,7 @@ const reviewController = app => {
   app.get('/reviews', authenticate, getAllReviewsByUser)
   app.post('/reviews', authenticate, createReview)
   app.delete('/reviews/places/:placeId', authenticate, deleteReview)
+  app.delete('/reviews/places/:placeId/:username', authenticate, authDeleteAnyReview, deleteReviewByPlaceUser)
   app.put('/reviews/places/:placeId', authenticate, updateReview)
 }
 

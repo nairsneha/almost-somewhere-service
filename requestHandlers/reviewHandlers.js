@@ -74,7 +74,6 @@ import reviewDao from "../daos/reviewDao.js";
  export const deleteReviewHandler = async (username, placeId) => {
 
     const userReview = await reviewDao.getUserReview(username, placeId);
-    console.log(userReview)
     if (!userReview) {
         return new ResponseStatus( false,
                                    'This username or place does not exist',

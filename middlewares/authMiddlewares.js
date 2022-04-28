@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config.js';
+import canDeleteAnyReview from '../permissions/canDeleteAnyReview.js'
 
 /**
  * Authenticates the user using the access token provided in the authorization header of the request.
@@ -8,7 +9,7 @@ import { JWT_SECRET } from '../config.js';
  *
  * Sets the `req.user` to the authenticated user and delegates the control to the next middleware.
  */
-const authenticate = (req, res, next) => {
+export const authenticate = (req, res, next) => {
   // Expects a bearer token, i.e 'Bearer *ACCESS TOKEN*'
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];
@@ -27,4 +28,16 @@ const authenticate = (req, res, next) => {
   });
 };
 
-export default authenticate;
+
+/**
+ * Authenticates the user role for deleting any review.
+ */
+export const authDeleteAnyReview = (req, res, next) => {
+    console.log("in hereee")
+    if (!canDeleteAnyReview(req.user)) {
+      return res.sendStatus(StatusCodes.UNAUTHORIZED);
+    }   
+    next();
+}
+
+export default authenticate
