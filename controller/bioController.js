@@ -4,7 +4,7 @@ import {
   createBioHandler,
   updateBioHandler,
 } from '../requestHandlers/bioHandlers.js';
-import authenticate from '../middlewares/authMiddlewares.js';
+import {authenticate} from '../middlewares/authMiddlewares.js';
 
 /**
  * Retrieves the bio of the user with the given unique username.
