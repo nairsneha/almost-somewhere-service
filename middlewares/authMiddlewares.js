@@ -32,10 +32,11 @@ export const authenticate = (req, res, next) => {
 /**
  * Authenticates the user role for deleting any review.
  */
+// eslint-disable-next-line consistent-return
 export const authDeleteAnyReview = (req, res, next) => {
-    console.log("in hereee")
     if (!canDeleteAnyReview(req.user)) {
       return res.sendStatus(StatusCodes.UNAUTHORIZED);
     }   
     next();
 }
+
