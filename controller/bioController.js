@@ -1,6 +1,7 @@
+import {StatusCodes} from "http-status-codes";
 import {getBioHandler,createBioHandler,updateBioHandler} from "../requestHandlers/bioHandlers.js";
 import {authenticate} from "../middlewares/authMiddlewares.js";
-import {StatusCodes} from "http-status-codes";
+
 
 /**
  * Retrieves the bio of the user with the given unique username.
