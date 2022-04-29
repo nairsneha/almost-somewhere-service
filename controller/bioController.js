@@ -30,7 +30,7 @@ const getBio = async (req, res, next) => {
 const createBio = async (req, res, next) => {
 
    try {
-
+console.log(req.body)
         const response = await createBioHandler(req.body);
     //   authenticate(req, res, next);
         res.status(response.status || StatusCodes.OK).json(response);
@@ -68,7 +68,7 @@ const updateBio = async (req, res, next) => {
  */
 const bioController = app => {
     app.get('/username/:username/bio',authenticate, getBio);
-    app.post('/bio',authenticate, createBio);
+    app.post('/bio', createBio);
     app.put('/bio',authenticate, updateBio);
 };
 

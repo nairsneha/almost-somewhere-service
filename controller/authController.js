@@ -27,6 +27,7 @@ const createNewUser = async (req, res) => {
  */
 const login = async (req, res) => {
   try {
+    console.log(req.body);
     const response = await loginUserHandler(req.body);
     res.status(response.status || StatusCodes.OK).json(response);
   } catch (err) {
@@ -42,7 +43,7 @@ const login = async (req, res) => {
  */
 const authController = app => {
   app.post('/auth/signup', createNewUser);
-  app.get('/auth/login', login);
+  app.post('/auth/login', login);
 };
 
 export default authController;
