@@ -6,6 +6,7 @@ import placesController from './controller/placesController.js';
 import { MONGO_CONNECTION_STRING } from './config.js';
 import authController from './controller/authController.js';
 import bioController from "./controller/bioController.js";
+import reviewController from "./controller/reviewController.js"
 
 // Connect to the AlmostSomewhere database
 mongoose.connect(MONGO_CONNECTION_STRING);
@@ -22,6 +23,7 @@ app.use(CORS());
 placesController(app);
 authController(app);
 bioController(app);
+reviewController(app);
 
 const port = process.env.PORT || 8081;
 app.listen(port, () => {

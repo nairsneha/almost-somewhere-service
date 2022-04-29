@@ -5,7 +5,7 @@ import roles from '../roles.js';
 const userSchema = mongoose.Schema({
   username: { type: String, unique: true, lowercase: true, minLength: 3, required: true },
   password: { type: String, required: true, minLength: 3 },
-  role: { type: String, default: roles.BASIC, enum: [roles.BASIC, roles.ADMIN], lowercase: true },
+  role: { type: String, default: roles.BASIC, enum: [roles.BASIC, roles.MOD, roles.ADMIN], lowercase: true },
 });
 
 export default userSchema;
