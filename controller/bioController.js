@@ -5,9 +5,8 @@ import {StatusCodes} from "http-status-codes";
 /**
  * Retrieves the bio of the user with the given unique username.
  */
-const getBio = async (req, res, next) => {
+const getBio = async (req, res) => {
     try {
-     //   authenticate(req, res, next);
         const response = await getBioHandler(req.params.username);
         res.status(response.status || StatusCodes.OK).json(response);
     }
@@ -27,11 +26,10 @@ const getBio = async (req, res, next) => {
  * @param req the http request from the client
  * @param res the http response sent to client
  */
-const createBio = async (req, res, next) => {
+const createBio = async (req, res) => {
 
    try {
         const response = await createBioHandler(req.body);
-    //   authenticate(req, res, next);
         res.status(response.status || StatusCodes.OK).json(response);
     }
     catch (err) {
