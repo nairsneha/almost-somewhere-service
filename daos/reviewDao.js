@@ -44,7 +44,7 @@ const createUserReview = async (givenUsername, userReview) => reviewModel.create
  */
 const updateUserReview = async (givenUsername, givenPlaceId, userReview) =>
  reviewModel.findOneAndUpdate(
-    {username: givenUsername, placeId: givenPlaceId},
+    {'postedBy.username': givenUsername, placeId: givenPlaceId},
     {
         $set: {
         text: userReview.text,

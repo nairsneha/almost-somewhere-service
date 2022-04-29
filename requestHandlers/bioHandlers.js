@@ -11,6 +11,29 @@ import bioDao from "../daos/bioDao.js";
 export const getBioHandler = async username => {
 
     const bioUser = await bioDao.getUserBio(username);
+    console.log(bioUser)
+    if (!bioUser) {
+        return new ResponseStatus( false,
+                                   'This username does not exist',
+                                   {},
+                                   StatusCodes.UNAUTHORIZED,);
+    }
+    return new ResponseStatus(true, 'Get Bio', bioUser, StatusCodes.OK);
+
+};
+
+/**
+ * This is the handler to get the bio of the user with the given username.
+ * Throws an error if the username does not exist.
+ * @param username
+ * @returns {Promise<ResponseStatus>}
+ */
+ export const getSensitiveBioHandler = async username => {
+
+    const bioUser = await bioDao.getSensitiveUserBio(username);
+
+    console.log("sensitive")
+    console.log(bioUser)
 
     if (!bioUser) {
         return new ResponseStatus( false,
@@ -51,10 +74,10 @@ export const createBioHandler = async bio => {
  * @returns {Promise<ResponseStatus>} response status with the error message or the success message
  * and the new bio object
  */
-export const updateBioHandler = async bio => {
+export const updateBioHandler = async (username, bio) => {
 
-    const userBio = await bioDao.updateUserBio(bio);
-    const newBio = await bioDao.getUserBio(bio.username);
+    const userBio = await bioDao.updateUserBio(username, bio);
+    const newBio = await bioDao.getUserBio(username);
     if (!userBio) {
         return new ResponseStatus( false,
                                    'Bio could not be updated',
@@ -63,4 +86,26 @@ export const updateBioHandler = async bio => {
     }
 
     return new ResponseStatus(true, 'Bio updated', newBio, StatusCodes.OK);
+}
+
+
+/**
+ * This is the handler for updating the verified status in bio of user with the given username.
+ * Throws an error if the bio could not be updated.
+ * 
+ * @param bio the bio object which has the updated parameters
+ * @returns {Promise<ResponseStatus>} response status with the error message or the success message
+ * and the new bio object
+ */
+ export const updateUserVerifiedHandler = async (username, bio) => {
+     console.log(username)
+    const userBio = await bioDao.updateUserVerified(username, bio);
+    if (!userBio) {
+        return new ResponseStatus( false,
+                                   'Bio could not be updated',
+                                   {},
+                                   StatusCodes.UNAUTHORIZED,);
+    }
+
+    return new ResponseStatus(true, 'Bio updated', userBio, StatusCodes.OK);
 }

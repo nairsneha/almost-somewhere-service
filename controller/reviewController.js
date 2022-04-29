@@ -6,7 +6,7 @@ import {
   deleteReviewHandler,
   updateReviewHandler
 } from '../requestHandlers/reviewHandlers.js';
-import {authenticate, authDeleteAnyReview} from '../middlewares/authMiddlewares.js';
+import {authenticate, authDeleteAnyReview, authOwnReview, authOwnUserReview} from '../middlewares/authMiddlewares.js';
 
 /**
  * Creates a review of logged in user for the place with given placeId.
@@ -34,7 +34,7 @@ const getAllReviewsByPlace = async (req, res) => {
     const response = await getAllReviewsByPlaceHandler(req.params.placeId);
     res.status(response.status || StatusCodes.OK).json(response);
   } catch (err) {
-    res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: err.message || 'Bad request' });
   }
 }
 
@@ -48,7 +48,7 @@ const getAllReviewsByUser = async (req, res) => {
     const response = await getAllReviewsByUserHandler(req.user.username);
     res.status(response.status || StatusCodes.OK).json(response);
   } catch (err) {
-    res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: err.message || 'Bad request' });
   }
 }
 
@@ -58,27 +58,39 @@ const getAllReviewsByUser = async (req, res) => {
  * @param res the http response sent to client
  */
 const deleteReview = async (req, res) => {
-  try {
-    const response = await deleteReviewHandler(req.user.username, req.params.placeId);
-    res.status(response.status || StatusCodes.OK).json(response);
-  } catch (err) {
-    res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
+  if(authOwnReview(req)){
+    try {
+      const response = await deleteReviewHandler(req.user.username, req.params.placeId);
+      res.status(response.status || StatusCodes.OK).json(response);
+    } catch (err) {
+      res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
+    }
+  } else if(authDeleteAnyReview(req)){
+    try {
+      const response = await deleteReviewHandler(req.params.username, req.params.placeId);
+      res.status(response.status || StatusCodes.OK).json(response);
+    } catch (err) {
+      res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
+    }
+  } else {
+    res.sendStatus(StatusCodes.UNAUTHORIZED).json('User not authenticated');
   }
+  
 }
 
 /**
- * Deletes the review of a user for a place with the given placeId and given username.
- * @param req the http request from the client
- * @param res the http response sent to client
- */
-const deleteReviewByPlaceUser = async (req, res) => {
-  try {
-    const response = await deleteReviewHandler(req.params.username, req.params.placeId);
-    res.status(response.status || StatusCodes.OK).json(response);
-  } catch (err) {
-    res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
-  }
-}
+//  * Deletes the review of a user for a place with the given placeId and given username.
+//  * @param req the http request from the client
+//  * @param res the http response sent to client
+//  */
+// const deleteReviewByPlaceUser = async (req, res) => {
+//   try {
+//     const response = await deleteReviewHandler(req.params.username, req.params.placeId);
+//     res.status(response.status || StatusCodes.OK).json(response);
+//   } catch (err) {
+//     res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
+//   }
+// }
 
 /**
  * Updates the review of the logged in user for a place with the given placeId.
@@ -97,10 +109,10 @@ const updateReview = async (req, res) => {
 const reviewController = app => {
   app.get('/reviews/places/:placeId', getAllReviewsByPlace)
   app.get('/reviews', authenticate, getAllReviewsByUser)
-  app.post('/reviews', authenticate, createReview)
-  app.delete('/reviews/places/:placeId', authenticate, deleteReview)
-  app.delete('/reviews/places/:placeId/:username', authenticate, authDeleteAnyReview, deleteReviewByPlaceUser)
-  app.put('/reviews/places/:placeId', authenticate, updateReview)
+  app.post('/reviews', authenticate, authOwnUserReview, createReview)
+  // app.delete('/reviews/places/:placeId', authenticate, deleteReview)
+  app.delete('/reviews/places/:placeId/:username', authenticate, deleteReview)
+  app.put('/reviews/places/:placeId', authenticate, authOwnUserReview, updateReview)
 }
 
 export default reviewController;

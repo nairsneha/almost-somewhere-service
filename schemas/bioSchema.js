@@ -9,8 +9,10 @@ const bioSchema = mongoose.Schema(
         age: { type: Number, required: true, minLength: 3 },
         favorites: [{ type: String}],
         followers: [{type: String}],
-        following: [{type: String}]
-
+        following: [{type: String}],
+        profilePhotoURL: {type: String},
+        bannerPhotoURL: {type: String},
+        verified: {type: Boolean}
     }
 );
 export default bioSchema;
