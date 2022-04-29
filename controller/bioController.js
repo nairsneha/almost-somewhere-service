@@ -1,5 +1,5 @@
 import {getBioHandler,createBioHandler,updateBioHandler} from "../requestHandlers/bioHandlers.js";
-import authenticate from "../middlewares/authMiddlewares.js";
+import {authenticate} from "../middlewares/authMiddlewares.js";
 import {StatusCodes} from "http-status-codes";
 
 /**
