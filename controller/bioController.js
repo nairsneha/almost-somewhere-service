@@ -50,7 +50,6 @@ const updateBio = async (req, res) => {
 
     try {
         const response = await updateBioHandler(req.body);
-     //   authenticate(req, res, next);
         res.status(response.status || StatusCodes.OK).json(response);
     }
     catch (err) {
