@@ -29,11 +29,7 @@ export const authenticate = (req, res, next) => {
 };
 
 
-/**
- * Authenticates the user role for deleting any review.
- */
-// eslint-disable-next-line consistent-return
-export const authDeleteAnyReview = (req) => (canDelAnyReview(req.user))
+
 
 /**
  * Authenticates the user to Create Update own review.
@@ -45,6 +41,12 @@ export const authOwnUserReview = (req, res, next) => {
   }   
   next();
 }
+
+/**
+ * Authenticates the user role for deleting any review.
+ */
+// eslint-disable-next-line consistent-return
+export const authDeleteAnyReview = (req) => (canDelAnyReview(req.user))
 
 /**
  * Authenticates the user to delete own review.
@@ -75,6 +77,5 @@ export const authUpdateBio = (req, res, next) => {
 /**
  * Authenticates the user to update verified status.
  */
-// eslint-disable-next-line consistent-return
 export const authUpdateUserVerified = (req) => (canUpdateUserVerified(req.user))
 

@@ -11,7 +11,6 @@ import bioDao from "../daos/bioDao.js";
 export const getBioHandler = async username => {
 
     const bioUser = await bioDao.getUserBio(username);
-    console.log(bioUser)
     if (!bioUser) {
         return new ResponseStatus( false,
                                    'This username does not exist',
@@ -23,7 +22,7 @@ export const getBioHandler = async username => {
 };
 
 /**
- * This is the handler to get the bio of the user with the given username.
+ * This is the handler to get the bio with sensitive info of the user with the given username.
  * Throws an error if the username does not exist.
  * @param username
  * @returns {Promise<ResponseStatus>}
@@ -31,9 +30,6 @@ export const getBioHandler = async username => {
  export const getSensitiveBioHandler = async username => {
 
     const bioUser = await bioDao.getSensitiveUserBio(username);
-
-    console.log("sensitive")
-    console.log(bioUser)
 
     if (!bioUser) {
         return new ResponseStatus( false,
@@ -98,7 +94,6 @@ export const updateBioHandler = async (username, bio) => {
  * and the new bio object
  */
  export const updateUserVerifiedHandler = async (username, bio) => {
-     console.log(username)
     const userBio = await bioDao.updateUserVerified(username, bio);
     if (!userBio) {
         return new ResponseStatus( false,

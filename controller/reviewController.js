@@ -54,6 +54,7 @@ const getAllReviewsByUser = async (req, res) => {
 
 /**
  * Deletes the review of the logged in user for a place with the given placeId.
+ * If admin or mod, deletes the review of any user for a place with the given placeId and username.
  * @param req the http request from the client
  * @param res the http response sent to client
  */
@@ -79,20 +80,6 @@ const deleteReview = async (req, res) => {
 }
 
 /**
-//  * Deletes the review of a user for a place with the given placeId and given username.
-//  * @param req the http request from the client
-//  * @param res the http response sent to client
-//  */
-// const deleteReviewByPlaceUser = async (req, res) => {
-//   try {
-//     const response = await deleteReviewHandler(req.params.username, req.params.placeId);
-//     res.status(response.status || StatusCodes.OK).json(response);
-//   } catch (err) {
-//     res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
-//   }
-// }
-
-/**
  * Updates the review of the logged in user for a place with the given placeId.
  * @param req the http request from the client
  * @param res the http response sent to client
@@ -110,7 +97,6 @@ const reviewController = app => {
   app.get('/reviews/places/:placeId', getAllReviewsByPlace)
   app.get('/reviews', authenticate, getAllReviewsByUser)
   app.post('/reviews', authenticate, authOwnUserReview, createReview)
-  // app.delete('/reviews/places/:placeId', authenticate, deleteReview)
   app.delete('/reviews/places/:placeId/:username', authenticate, deleteReview)
   app.put('/reviews/places/:placeId', authenticate, authOwnUserReview, updateReview)
 }
