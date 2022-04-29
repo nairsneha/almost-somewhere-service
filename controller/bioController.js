@@ -30,7 +30,6 @@ const getBio = async (req, res, next) => {
 const createBio = async (req, res, next) => {
 
    try {
-console.log(req.body)
         const response = await createBioHandler(req.body);
     //   authenticate(req, res, next);
         res.status(response.status || StatusCodes.OK).json(response);
@@ -47,7 +46,7 @@ console.log(req.body)
  * @param req the http request from the client
  * @param res the http response sent to client
  */
-const updateBio = async (req, res, next) => {
+const updateBio = async (req, res) => {
 
     try {
         const response = await updateBioHandler(req.body);

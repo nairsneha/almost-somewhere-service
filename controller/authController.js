@@ -27,7 +27,6 @@ const createNewUser = async (req, res) => {
  */
 const login = async (req, res) => {
   try {
-    console.log(req.body);
     const response = await loginUserHandler(req.body);
     res.status(response.status || StatusCodes.OK).json(response);
   } catch (err) {
