@@ -1,3 +1,4 @@
+
 import { StatusCodes } from 'http-status-codes';
 import {
   getBioHandler,
@@ -9,11 +10,13 @@ import {
 import {authenticate, authUpdateBio, authUpdateUserVerified, authViewSensitiveBio} from '../middlewares/authMiddlewares.js';
 
 
+
 /**
  * Retrieves the bio of the user with or without sensitive info of the user depending on role.
  * @param req the http request from the client
  * @param res the http response sent to client
  */
+
  const getBio = async (req, res) => {
   console.log(req, req.params.username)
   if(!authViewSensitiveBio(req)){
@@ -35,6 +38,7 @@ import {authenticate, authUpdateBio, authUpdateUserVerified, authViewSensitiveBi
   }
 };
 
+
 /**
  * Creates a bio for the user with the given username since its unique
  * It adds details of user like firstname, lastname, gender, age, favorites, followers, following
@@ -42,6 +46,7 @@ import {authenticate, authUpdateBio, authUpdateUserVerified, authViewSensitiveBi
  * @param res the http response sent to client
  */
 const createBio = async (req, res) => {
+
   try {
     const response = await createBioHandler(req.body);
     //   authenticate(req, res, next);
@@ -58,6 +63,7 @@ const createBio = async (req, res) => {
  * @param res the http response sent to client
  */
 const updateBio = async (req, res) => {
+
 
   if(!authUpdateUserVerified(req, res)) {
     try {
@@ -81,14 +87,17 @@ const updateBio = async (req, res) => {
 };
 
 
+
 /**
  * Controller for /auth. Adds all the necessary routes related to authentication to the app.
  * @param app {Express} app the express app to add the routes to
  */
 const bioController = app => {
+
   app.get('/user/:username/bio', authenticate, getBio)
   app.post('/bio', createBio);
   app.put('/user/:username/bio', authenticate, authUpdateBio, updateBio);
+
 };
 
 export default bioController;
