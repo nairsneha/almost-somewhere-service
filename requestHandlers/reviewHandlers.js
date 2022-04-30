@@ -39,7 +39,7 @@ import reviewDao from "../daos/reviewDao.js";
         return new ResponseStatus( false,
                                    'This place does not exist',
                                    {},
-                                   StatusCodes.UNAUTHORIZED,);
+                                   StatusCodes.BAD_REQUEST,);
     }
 
     return new ResponseStatus(true, 'Get Reviews by Place', placeReviews, StatusCodes.OK);
@@ -59,7 +59,7 @@ import reviewDao from "../daos/reviewDao.js";
         return new ResponseStatus( false,
                                    'This username does not exist',
                                    {},
-                                   StatusCodes.UNAUTHORIZED,);
+                                   StatusCodes.BAD_REQUEST,);
     }
 
     return new ResponseStatus(true, 'Get Reviews by User', userReviews, StatusCodes.OK);
@@ -78,7 +78,7 @@ import reviewDao from "../daos/reviewDao.js";
         return new ResponseStatus( false,
                                    'This username or place does not exist',
                                    {},
-                                   StatusCodes.UNAUTHORIZED,);
+                                   StatusCodes.BAD_REQUEST,);
     }
 
     const review = await reviewDao.deleteReview(userReview.id);
@@ -86,7 +86,7 @@ import reviewDao from "../daos/reviewDao.js";
         return new ResponseStatus( false,
                                    'This review could not be deleted',
                                    {},
-                                   StatusCodes.UNAUTHORIZED,);
+                                   StatusCodes.BAD_REQUEST,);
     }
 
     return new ResponseStatus(true, 'Review Deleted', review, StatusCodes.OK);
@@ -108,7 +108,7 @@ import reviewDao from "../daos/reviewDao.js";
         return new ResponseStatus( false,
                                    'Review could not be updated',
                                    {},
-                                   StatusCodes.UNAUTHORIZED,);
+                                   StatusCodes.BAD_REQUEST,);
     }
 
     return new ResponseStatus(true, 'Review updated', userReview, StatusCodes.OK);
