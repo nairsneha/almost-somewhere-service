@@ -42,7 +42,7 @@ const login = async (req, res) => {
  */
 const authController = app => {
   app.post('/auth/signup', createNewUser);
-  app.get('/auth/login', login);
+  app.post('/auth/login', login);
 };
 
 export default authController;
