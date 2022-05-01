@@ -1,45 +1,6 @@
 import {StatusCodes} from "http-status-codes";
 import ResponseStatus from '../dtos/ResponseStatus.js';
-import followDao from "../daos/followDao.js";
-
-/**
- * This is the handler to get the follower list
- * @param username
- * @returns {Promise<ResponseStatus>}
- */
- export const getFollowersHandler = async (username) => {
-
-    const followers = await followDao.getFollowers(username);
-
-    if (!followers) {
-        return new ResponseStatus( false,
-                                   'This username does not exist',
-                                   {},
-                                   StatusCodes.BAD_REQUEST,);
-    }
-
-    return new ResponseStatus(true, 'Get Followers', followers, StatusCodes.OK);
-};
-
-/**
- * This is the handler to get the following list
- * @param username
- * @returns {Promise<ResponseStatus>}
- */
- export const getFollowingHandler = async (username) => {
-
-    const following = await followDao.getFollowering(username);
-
-    if (!following) {
-        return new ResponseStatus( false,
-                                   'This username does not exist',
-                                   {},
-                                   StatusCodes.BAD_REQUEST,);
-    }
-
-    return new ResponseStatus(true, 'Get Followers', following, StatusCodes.OK);
-};
-
+import bioDao from "../daos/bioDao.js";
 
 /**
  * Adds the given username to logged in user's following list,
@@ -50,10 +11,8 @@ import followDao from "../daos/followDao.js";
  */
  export const followHandler = async (username, followUsername) => {
 
-    const following = await followDao.addToFollowing(username, followUsername);
-    const follower = await followDao.addToFollower(followUsername, username);
-
-    console.log(follower)
+    const following = await bioDao.addToFollowing(username, followUsername.username);
+    const follower = await bioDao.addToFollower(followUsername.username, username);
 
     if (!following || !follower) {
         return new ResponseStatus( false,
@@ -62,7 +21,7 @@ import followDao from "../daos/followDao.js";
                                    StatusCodes.BAD_REQUEST,);
     }
 
-    return new ResponseStatus(true, 'Get Followers', following, StatusCodes.OK);
+    return new ResponseStatus(true, 'Follow', following, StatusCodes.OK);
 };
 
 
@@ -75,10 +34,8 @@ import followDao from "../daos/followDao.js";
  */
  export const unfollowHandler = async (username, followUsername) => {
 
-    const following = await followDao.removeFromFollowing(username, followUsername);
-    const follower = await followDao.removeFromFollower(followUsername, username);
-
-    console.log(follower)
+    const following = await bioDao.removeFromFollowing(username, followUsername.username);
+    const follower = await bioDao.removeFromFollower(followUsername.username, username);
 
     if (!following || !follower) {
         return new ResponseStatus( false,
@@ -87,5 +44,5 @@ import followDao from "../daos/followDao.js";
                                    StatusCodes.BAD_REQUEST,);
     }
 
-    return new ResponseStatus(true, 'Get Followers', following, StatusCodes.OK);
+    return new ResponseStatus(true, 'Unfollow', following, StatusCodes.OK);
 };

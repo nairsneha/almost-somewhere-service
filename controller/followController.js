@@ -1,9 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import {
   followHandler,
-  unfollowHandler,
-  getFollowingHandler,
-  getFollowersHandler
+  unfollowHandler
 } from '../requestHandlers/followHandlers.js';
 import {authenticate} from '../middlewares/authMiddlewares.js';
 
@@ -31,48 +29,17 @@ import {authenticate} from '../middlewares/authMiddlewares.js';
  */
  const unfollow = async (req, res) => {
     try {
-      const response = await unfollowHandler(req.user.username, req.params.placeId, req.body);
+      const response = await unfollowHandler(req.user.username, req.body);
       res.status(response.status || StatusCodes.OK).json(response);
     } catch (err) {
       res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
     }
   }
 
-
-/**
- * Gets the follower list of given username
- * @param req the http request from the client
- * @param res the http response sent to client
- */
- const getFollowers = async (req, res) => {
-    try {
-      const response = await getFollowersHandler(req.user.username, req.params.placeId, req.body);
-      res.status(response.status || StatusCodes.OK).json(response);
-    } catch (err) {
-      res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
-    }
-  }
-
-/**
- * Gets the follower list of given username
- * @param req the http request from the client
- * @param res the http response sent to client
- */
- const getFollowing = async (req, res) => {
-    try {
-      const response = await getFollowingHandler(req.user.username, req.params.placeId, req.body);
-      res.status(response.status || StatusCodes.OK).json(response);
-    } catch (err) {
-      res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
-    }
-  }
   
-
 const followController = app => {
     app.put('/follow', authenticate, follow)
-    app.put('/unfollow', authenticate, unfollow)
-    app.get('/followers/:username', authenticate, getFollowers)
-    app.get('/following/:username', authenticate, getFollowing)
+    app.delete('/unfollow', authenticate, unfollow)
 }
 
 export default followController
