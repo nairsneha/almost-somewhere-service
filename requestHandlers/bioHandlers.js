@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {StatusCodes} from "http-status-codes";
 import ResponseStatus from '../dtos/ResponseStatus.js';
 import bioDao from "../daos/bioDao.js";
