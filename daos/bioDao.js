@@ -24,7 +24,7 @@ const updateUserBio = async (givenUsername,userBio) =>
         followers: userBio.followers,
         following: userBio.following,
         profilePhotoURL: userBio.profilePhotoURL,
-        bannerPhotoURL: userBio.profilePhotoURL
+        bannerPhotoURL: userBio.bannerPhotoURL
       },
     },
   );
