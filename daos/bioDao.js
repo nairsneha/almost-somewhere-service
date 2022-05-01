@@ -69,7 +69,7 @@ const getUserBio = async givenUsername => bioModel.findOne({ username: givenUser
  */
  const addToFollowing = async (givenUsername, followUsername) => bioModel.findOneAndUpdate(
   { username: givenUsername },
-  { $push: { following: followUsername } },
+  { $addToSet: { following: followUsername } },
   {new: true}
 );;
 
@@ -79,7 +79,7 @@ const getUserBio = async givenUsername => bioModel.findOne({ username: givenUser
 */
 const addToFollower = async (givenUsername, followUsername) => bioModel.findOneAndUpdate(
   { username: givenUsername },
-  { $push: { followers: followUsername } },
+  { $addToSet: { followers: followUsername } },
   {new: true}
 );;
 
