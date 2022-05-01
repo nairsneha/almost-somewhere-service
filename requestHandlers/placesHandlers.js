@@ -1,4 +1,4 @@
-import { getPlaceDetails, placesNearbyClient, getPlacePhoto } from '../client/placesClient.js';
+import {getPlaceDetails, placesNearbyClient, getPlacePhoto, matchingPlacesSearch} from '../client/placesClient.js';
 import Response from '../dtos/Response.js';
 import PlaceDetails from '../dtos/PlaceDetails.js';
 
@@ -10,71 +10,71 @@ import PlaceDetails from '../dtos/PlaceDetails.js';
  * @returns {PlaceDetails} parsed details of the given place.
  */
 const parsePlaceDetails = result => {
-  const placeDetailsBuilder = PlaceDetails.getBuilder();
+    const placeDetailsBuilder = PlaceDetails.getBuilder();
 
-  const {
-    business_status: businessStatus,
-    formatted_address: formattedAddress,
-    formatted_phone_number: formattedPhoneNumber,
-    geometry,
-    name,
-    opening_hours: openingHours,
-    photos: resultPhotos,
-    place_id: placeId,
-    rating,
-    reviews: resultReviews,
-    website,
-  } = result;
+    const {
+        business_status: businessStatus,
+        formatted_address: formattedAddress,
+        formatted_phone_number: formattedPhoneNumber,
+        geometry,
+        name,
+        opening_hours: openingHours,
+        photos: resultPhotos,
+        place_id: placeId,
+        rating,
+        reviews: resultReviews,
+        website,
+    } = result;
 
-  placeDetailsBuilder.businessStatus = businessStatus;
-  placeDetailsBuilder.formattedAddress = formattedAddress;
-  placeDetailsBuilder.formattedPhoneNumber = formattedPhoneNumber;
-  placeDetailsBuilder.name = name;
-  placeDetailsBuilder.placeId = placeId;
-  placeDetailsBuilder.rating = rating;
-  placeDetailsBuilder.website = website;
+    placeDetailsBuilder.businessStatus = businessStatus;
+    placeDetailsBuilder.formattedAddress = formattedAddress;
+    placeDetailsBuilder.formattedPhoneNumber = formattedPhoneNumber;
+    placeDetailsBuilder.name = name;
+    placeDetailsBuilder.placeId = placeId;
+    placeDetailsBuilder.rating = rating;
+    placeDetailsBuilder.website = website;
 
-  const { location } = geometry;
-  placeDetailsBuilder.location = location;
+    const {location} = geometry;
+    placeDetailsBuilder.location = location;
 
-  const { open_now: openNow, weekday_text: weekdayText } = openingHours;
+    const {open_now: openNow, weekday_text: weekdayText} = openingHours;
 
-  placeDetailsBuilder.openNow = openNow;
-  placeDetailsBuilder.weekdayText = weekdayText;
+    placeDetailsBuilder.openNow = openNow;
+    placeDetailsBuilder.weekdayText = weekdayText;
 
-  if (resultPhotos && resultPhotos.length > 0) {
-    const photos = resultPhotos.map(resultPhoto => {
-      const { height, width, photo_reference: photoReference } = resultPhoto;
+    if (resultPhotos && resultPhotos.length > 0) {
+        const photos = resultPhotos.map(resultPhoto => {
+            const {height, width, photo_reference: photoReference} = resultPhoto;
 
-      return { height, width, photoReference };
-    });
+            return {height, width, photoReference};
+        });
 
-    photos.forEach(photo => placeDetailsBuilder.addPhoto(photo));
-  }
+        photos.forEach(photo => placeDetailsBuilder.addPhoto(photo));
+    }
 
-  if (resultReviews && resultReviews.length > 0) {
-    const reviews = resultReviews.map(resultReview => {
-      const {
-        author_name: authorName,
-        profile_photo_url: profilePhotoUrl,
-        rating: reviewRating,
-        relative_time_descrption: relativeTimeDescription,
-        text,
-      } = resultReview;
+    if (resultReviews && resultReviews.length > 0) {
+        const reviews = resultReviews.map(resultReview => {
+            const {
+                author_name: authorName,
+                profile_photo_url: profilePhotoUrl,
+                rating: reviewRating,
+                relative_time_descrption: relativeTimeDescription,
+                text,
+            } = resultReview;
 
-      return {
-        authorName,
-        profilePhotoUrl,
-        rating: reviewRating,
-        relativeTimeDescription,
-        text,
-      };
-    });
+            return {
+                authorName,
+                profilePhotoUrl,
+                rating: reviewRating,
+                relativeTimeDescription,
+                text,
+            };
+        });
 
-    reviews.forEach(review => placeDetailsBuilder.addReview(review));
-  }
+        reviews.forEach(review => placeDetailsBuilder.addReview(review));
+    }
 
-  return placeDetailsBuilder.build();
+    return placeDetailsBuilder.build();
 };
 
 /**
@@ -86,11 +86,11 @@ const parsePlaceDetails = result => {
  * given `placeId`.
  */
 export const placeDetailsHandler = async placeId => {
-  const response = await getPlaceDetails(placeId);
+    const response = await getPlaceDetails(placeId);
 
-  const placesDetails = response.isOk ? parsePlaceDetails(response.response) : {};
+    const placesDetails = response.isOk ? parsePlaceDetails(response.response) : {};
 
-  return new Response(response.isOk, response.message, placesDetails);
+    return new Response(response.isOk, response.message, placesDetails);
 };
 
 /**
@@ -106,10 +106,10 @@ export const placeDetailsHandler = async placeId => {
  */
 
 export const placesNearbyHandler = async (longitude, latitude, type, radius) => {
-  const response = await placesNearbyClient(longitude, latitude, type, radius);
-  const placesNearby = response.isOk ? response.response : {};
+    const response = await placesNearbyClient(longitude, latitude, type, radius);
+    const placesNearby = response.isOk ? response.response : {};
 
-  return new Response(response.isOk, response.message, placesNearby);
+    return new Response(response.isOk, response.message, placesNearby);
 };
 
 /**
@@ -125,9 +125,26 @@ export const placesNearbyHandler = async (longitude, latitude, type, radius) => 
  * @returns the `response` from Google Places API / Photo. The `response.headers['content-type']` contains the type of the image that is returned, and `response.data` contains the actual image in the form of an arraybuffer.
  */
 export const placePhotoHandler = async (photoReference, maxHeight, maxWidth) => {
-  const response = await getPlacePhoto(photoReference, maxHeight, maxWidth);
+    const response = await getPlacePhoto(photoReference, maxHeight, maxWidth);
 
-  // We're directly returning the response because the data from the response is in Binary form. We will also need the response's header data to
-  // return our own response.
-  return response;
+    // We're directly returning the response because the data from the response is in Binary form. We will also need the response's header data to
+    // return our own response.
+    return response;
+};
+
+
+/**
+ * Gets the places according to the search query. If latitude and longitude is specified, then the location near to the
+ * location will be given priority
+ *
+ * @param {String} query the query entered by the user
+ * @param {String} latitude OPTIONAL latitude, when provided, the places near to the location are prioritized
+ * @param {String} longitude OPTIONAL longitude, when provided, the places near to the location are prioritized
+ * @returns {Promise<Response>} a {@link Response} which consists a list of matching places to the given query
+ */
+
+export const matchingPlacesSearchHandler = async (query, latitude, longitude) => {
+    const response = await matchingPlacesSearch(query, longitude, latitude);
+    const matchingPlaces = response.isOk ? response.response : {};
+    return new Response(response.isOk, response.message, matchingPlaces);
 };

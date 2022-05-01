@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import {
+  matchingPlacesSearchHandler,
   placeDetailsHandler,
   placePhotoHandler,
   placesNearbyHandler,
@@ -47,6 +48,7 @@ const getPlacePhoto = async (req, res) => {
   }
 };
 
+
 /**
  * Get the details for the place specified by the placeId.
  *
@@ -63,6 +65,26 @@ const getPlaceDetails = async (req, res) => {
   }
 };
 
+
+/**
+ * Get the place details matching the given query.
+ *
+ * Takes 'query' which is the text entered by the user.
+ */
+const getMatchingPlaces = async (req, res) => {
+  try {
+    const { longitude, latitude } = req.query;
+    const response = await matchingPlacesSearchHandler(req.params?.query, latitude, longitude);
+    res.status(StatusCodes.OK).json(response);
+  } catch (err) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: err.message || 'Internal server error',
+    });
+  }
+};
+
+
+
 /**
  * Controller for /places. Adds all the necessary routes related to dealing with
  * the Google Places API to the `app`.
@@ -72,6 +94,7 @@ const placesController = app => {
   app.get('/places/nearby', getNearbyPlaces);
   app.get('/places/photo', getPlacePhoto);
   app.get('/places/details/:placeId', getPlaceDetails);
+  app.get('/places/search/:query', getMatchingPlaces);
 };
 
 export default placesController;

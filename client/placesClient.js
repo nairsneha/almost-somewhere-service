@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { GCP_API_KEY } from '../config.js';
+import {GCP_API_KEY} from '../config.js';
 import Response from '../dtos/Response.js';
-import { assert } from '../utils.js';
+import {assert} from '../utils.js';
 
 // Add all the calls to Places Search API here
 
@@ -10,10 +10,10 @@ import { assert } from '../utils.js';
 // of our requests. We will not need to specify the 'key' seperately everytime.
 //  e.g placesInstance.get("/"), will make GET request to 'https://maps.googleapis.com/maps/api/place?key=`GCP_API_KEY`'
 const placesInstance = axios.create({
-  baseURL: 'https://maps.googleapis.com/maps/api/place',
-  params: {
-    key: GCP_API_KEY,
-  },
+    baseURL: 'https://maps.googleapis.com/maps/api/place',
+    params: {
+        key: GCP_API_KEY,
+    },
 });
 
 // All the possible response statuses from Places/Details API
@@ -36,20 +36,20 @@ placesDetailsStatuses.set('UNKNOWN_ERROR', 'An unknown error occurred!');
  * @returns {Response} the response data
  */
 export const getPlaceDetails = async placeId => {
-  assert(placeId && typeof placeId === typeof 'somestring', 'placeId must be valid');
+    assert(placeId && typeof placeId === typeof 'somestring', 'placeId must be valid');
 
-  const response = await placesInstance.get(`/details/json`, {
-    params: {
-      place_id: placeId,
-    },
-  });
+    const response = await placesInstance.get(`/details/json`, {
+        params: {
+            place_id: placeId,
+        },
+    });
 
-  const isOk = response?.data?.status === 'OK';
-  const message = placesDetailsStatuses.get(response?.data?.status) || 'An unknown error occured!';
-  const data = response?.data?.result;
+    const isOk = response?.data?.status === 'OK';
+    const message = placesDetailsStatuses.get(response?.data?.status) || 'An unknown error occured!';
+    const data = response?.data?.result;
 
-  const res = new Response(isOk, message, data);
-  return res;
+    const res = new Response(isOk, message, data);
+    return res;
 };
 
 /**
@@ -65,27 +65,27 @@ export const getPlaceDetails = async placeId => {
  */
 
 export const placesNearbyClient = async (longitude, latitude, type, radius) => {
-  assert(longitude && typeof longitude === typeof 'somestring', 'longitude must be valid');
-  assert(latitude && typeof latitude === typeof 'somestring', 'latitude must be valid');
-  assert(type && typeof type === typeof 'somestring', 'type must be valid');
-  // assert(typeof radius === typeof 12, 'radius must be valid');
+    assert(longitude && typeof longitude === typeof 'somestring', 'longitude must be valid');
+    assert(latitude && typeof latitude === typeof 'somestring', 'latitude must be valid');
+    assert(type && typeof type === typeof 'somestring', 'type must be valid');
+    // assert(typeof radius === typeof 12, 'radius must be valid');
 
-  const response = await placesInstance.get(`/nearbysearch/json`, {
-    params: {
-      location: `${longitude},${latitude}`,
-      type,
-      radius,
-    },
-  });
+    const response = await placesInstance.get(`/nearbysearch/json`, {
+        params: {
+            location: `${longitude},${latitude}`,
+            type,
+            radius,
+        },
+    });
 
-  const isOk = response?.data?.status === 'OK';
-  // const message = placesDetailsStatuses.get(response?.data?.status) || 'An unknown error occured!';
-  const message = 'info retrieved';
-  const data = response?.data;
+    const isOk = response?.data?.status === 'OK';
+    // const message = placesDetailsStatuses.get(response?.data?.status) || 'An unknown error occured!';
+    const message = 'info retrieved';
+    const data = response?.data;
 
-  const res = new Response(isOk, message, data);
+    const res = new Response(isOk, message, data);
 
-  return res;
+    return res;
 };
 
 /**
@@ -101,15 +101,47 @@ export const placesNearbyClient = async (longitude, latitude, type, radius) => {
  * @returns the `response` from Google Places API / Photo. The `response.headers['content-type']` contains the type of the image that is returned, and `response.data` contains the actual image in the form of an arraybuffer. Throws an HTTP 400 if there's a problem with the request (See: https://developers.google.com/maps/documentation/places/web-service/photos#place_photo_response)
  */
 export const getPlacePhoto = async (photoReference, maxHeight, maxWidth) => {
-  assert(maxHeight || maxWidth, 'maxheight or maxwidth must be specified.');
-  const response = await placesInstance.get('/photo', {
-    params: {
-      photo_reference: photoReference,
-      maxheight: maxHeight,
-      maxwidth: maxWidth,
-    },
-    responseType: 'arraybuffer', // Asks the server to return binary data (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data)
-  });
+    assert(maxHeight || maxWidth, 'maxheight or maxwidth must be specified.');
+    const response = await placesInstance.get('/photo', {
+        params: {
+            photo_reference: photoReference,
+            maxheight: maxHeight,
+            maxwidth: maxWidth,
+        },
+        responseType: 'arraybuffer', // Asks the server to return binary data (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data)
+    });
 
-  return response;
+    return response;
+};
+
+
+/**
+ * Requests the Google Places API to get places that match the given query. If Lat and lng is provided,
+ * the places near the given location is prioritized.
+ * example: 'https://maps.googleapis.com/maps/api/place/textsearch/json?location=42.3417141,-71.085637&query=shawarma'
+ *
+ * @param {String} query the query entered by the user
+ * @param {String} latitude OPTIONAL latitude, when provided, the places near to the location are prioritized
+ * @param {String} longitude OPTIONAL longitude, when provided, the places near to the location are prioritized
+ */
+
+export const matchingPlacesSearch = async (query, latitude, longitude) => {
+    assert(query && typeof query === typeof 'somestring', 'query must be present and valid');
+    const paramsObj = {
+        query: `${query}`
+    };
+    // Add location attribute, only if both LAT and LNG are provided
+    if (latitude !== undefined && longitude !== undefined) {
+        paramsObj.location = `${latitude},${longitude}`;
+    }
+    const response = await placesInstance.get(`/textsearch/json`, {
+        params: paramsObj,
+    });
+
+    const isOk = response?.data?.status === 'OK';
+    const message = 'info retrieved';
+    const data = response?.data;
+
+    const res = new Response(isOk, message, data);
+    return res;
 };
