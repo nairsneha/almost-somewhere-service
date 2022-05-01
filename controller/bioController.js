@@ -18,7 +18,6 @@ import {authenticate, authUpdateBio, authUpdateUserVerified, authViewSensitiveBi
  */
 
  const getBio = async (req, res) => {
-  console.log(req, req.params.username)
   if(!authViewSensitiveBio(req)){
     try {
       //   authenticate(req, res, next);

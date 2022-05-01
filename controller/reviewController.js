@@ -96,7 +96,7 @@ const updateReview = async (req, res) => {
 const reviewController = app => {
   app.get('/reviews/places/:placeId', getAllReviewsByPlace)
   app.get('/reviews', authenticate, getAllReviewsByUser)
-  app.post('/reviews', authenticate, authOwnUserReview, createReview)
+  app.post('/reviews', authenticate, createReview)
   app.delete('/reviews/places/:placeId/:username', authenticate, deleteReview)
   app.put('/reviews/places/:placeId', authenticate, authOwnUserReview, updateReview)
 }

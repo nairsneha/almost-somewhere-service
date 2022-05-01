@@ -11,6 +11,7 @@ import bioDao from "../daos/bioDao.js";
 export const getBioHandler = async username => {
 
     const bioUser = await bioDao.getUserBio(username);
+    console.log(bioUser)
     if (!bioUser) {
         return new ResponseStatus( false,
                                    'This username does not exist',
