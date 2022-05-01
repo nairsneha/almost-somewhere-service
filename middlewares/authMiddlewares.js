@@ -61,7 +61,7 @@ export const authOwnReview = (req) => (canCreateUpdateDeleteReview(req.user, req
 /**
  * Authenticates the user to view sensitive bio.
  */
- export const authViewSensitiveBio = (req) => (canViewBio(req.user, req.params.user))
+ export const authViewSensitiveBio = (req) => (canViewBio(req.user, req.params.username))
 
 /**
  * Authenticates the user to do CRUD on sensitive Bio.
