@@ -25,11 +25,13 @@ export const getBioHandler = async username => {
  * This is the handler to get the bio with sensitive info of the user with the given username.
  * Throws an error if the username does not exist.
  * @param username
+ * @param role
  * @returns {Promise<ResponseStatus>}
  */
- export const getSensitiveBioHandler = async username => {
+ export const getSensitiveBioHandler = async (username, givenRole) => {
 
-    const bioUser = await bioDao.getSensitiveUserBio(username);
+    let bioUser = await bioDao.getSensitiveUserBio(username);
+    bioUser = {...bioUser._doc, role: givenRole}
 
     if (!bioUser) {
         return new ResponseStatus( false,

@@ -45,7 +45,7 @@ const getAllReviewsByPlace = async (req, res) => {
  */
 const getAllReviewsByUser = async (req, res) => {
   try {
-    const response = await getAllReviewsByUserHandler(req.user.username);
+    const response = await getAllReviewsByUserHandler(req.params.username);
     res.status(response.status || StatusCodes.OK).json(response);
   } catch (err) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: err.message || 'Bad request' });
@@ -95,7 +95,7 @@ const updateReview = async (req, res) => {
 
 const reviewController = app => {
   app.get('/reviews/places/:placeId', getAllReviewsByPlace)
-  app.get('/reviews', authenticate, getAllReviewsByUser)
+  app.get('/reviews/:username', getAllReviewsByUser)
   app.post('/reviews', authenticate, createReview)
   app.delete('/reviews/places/:placeId/:username', authenticate, deleteReview)
   app.put('/reviews/places/:placeId', authenticate, authOwnUserReview, updateReview)

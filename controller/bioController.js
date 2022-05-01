@@ -29,7 +29,9 @@ import {authenticate, authUpdateBio, authUpdateUserVerified, authViewSensitiveBi
   } else {
     try {
       //   authenticate(req, res, next);
-      const response = await getSensitiveBioHandler(req.params.username);
+
+      const response = await getSensitiveBioHandler(req.params.username, req.user.role);
+
       res.status(response.status || StatusCodes.OK).json(response)
     } catch (err) {
       res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
