@@ -8,8 +8,8 @@ const bioSchema = mongoose.Schema(
         gender: { type: String, required: true},
         age: { type: Number, required: true, minLength: 3 },
         favorites: [{ type: String}],
-        followers: [{type: String, unique: true}],
-        following: [{type: String, unique: true}],
+        followers: [{type: String}],
+        following: [{type: String}],
         profilePhotoURL: {type: String},
         bannerPhotoURL: {type: String},
         verified: {type: Boolean}
