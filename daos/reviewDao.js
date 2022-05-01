@@ -34,7 +34,7 @@ const createUserReview = async (givenUsername, userReview) => reviewModel.create
  * Deletes the review of the given users for given place with placeId. 
  * @param rid the user whose records are to be retrieved.
  */
- const deleteReview = async rid => reviewModel.deleteOne({id: rid});
+ const deleteReview = async rid => reviewModel.deleteOne({_id: rid});
 
 /**
  * Updtates the review of the user with the given username and placeId.

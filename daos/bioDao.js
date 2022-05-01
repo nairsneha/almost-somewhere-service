@@ -62,12 +62,58 @@ const getUserBio = async givenUsername => bioModel.findOne({ username: givenUser
  const getSensitiveUserBio = async givenUsername => bioModel.findOne({ username: givenUsername });
 
 
+
+/**
+ * Adds the first user to second user's following list
+ * @param givenUsername the username whose record is to be retrieved.
+ */
+ const addToFollowing = async (givenUsername, followUsername) => bioModel.findOneAndUpdate(
+  { username: givenUsername },
+  { $addToSet: { following: followUsername } },
+  {new: true}
+);;
+
+/**
+* Adds the first user to second user's follower list
+* @param givenUsername the username whose record is to be retrieved.
+*/
+const addToFollower = async (givenUsername, followUsername) => bioModel.findOneAndUpdate(
+  { username: givenUsername },
+  { $addToSet: { followers: followUsername } },
+  {new: true}
+);;
+
+/**
+* Removes the first user to second user's following list
+* @param givenUsername the username whose record is to be retrieved.
+*/
+const removeFromFollowing = async (givenUsername, followUsername) => bioModel.findOneAndUpdate(
+  { username: givenUsername },
+  { $pull: { following: followUsername } },
+  {new: true}
+);;
+
+/**
+* Removes the first user to second user's follower list
+* @param givenUsername the username whose record is to be retrieved.
+*/
+const removeFromFollower = async (givenUsername, followUsername) => bioModel.findOneAndUpdate(
+  { username: givenUsername },
+  { $pull: { followers: followUsername } },
+  {new: true}
+);;
+
+ 
 const bioDao = {
   createUserBio,
   updateUserBio,
   getUserBio,
   updateUserVerified,
-  getSensitiveUserBio
+  getSensitiveUserBio,
+  addToFollowing,
+  addToFollower,
+  removeFromFollower,
+  removeFromFollowing,
 };
 
 export default bioDao;
