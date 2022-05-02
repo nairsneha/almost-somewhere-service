@@ -65,8 +65,7 @@ const createBio = async (req, res) => {
  */
 const updateBio = async (req, res) => {
 
-
-  if(!authUpdateUserVerified(req, res)) {
+  if(authViewSensitiveBio(req)) {
     try {
       const response = await updateBioHandler(req.user.username, req.body);
       //   authenticate(req, res, next);
@@ -74,7 +73,7 @@ const updateBio = async (req, res) => {
     } catch (err) {
       res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
     }
-  } else {
+  } else if (authUpdateUserVerified(req, res)){
     try {
       const response = await updateUserVerifiedHandler(req.params.username, req.body);
       //   authenticate(req, res, next);
@@ -82,6 +81,8 @@ const updateBio = async (req, res) => {
     } catch (err) {
       res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message || 'User not authenticated' });
     }
+  } else {
+    res.status(StatusCodes.UNAUTHORIZED).json({ message: 'User not authenticated' });
   }
 
   
